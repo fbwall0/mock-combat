@@ -3,8 +3,6 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Attack;
-
 public class Creature {
 	
 	private String name;
@@ -17,10 +15,10 @@ public class Creature {
 	private int hpRegen;
 	private int profBonus;
 	private List<Attack> attacks = new ArrayList<>();
+	private List<Spell> spells = new ArrayList<>();
 
-	
 	public Creature(String name, int xp, int hpMax, int baseAC, double actionPointsMax, int hpRegen, int profBonus,
-			List<Attack> attacks) {
+			List<Attack> attacks, List<Spell> spells) {
 		this.name = name;
 		this.xp = xp;
 		this.hpMax = hpMax;
@@ -31,6 +29,8 @@ public class Creature {
 		this.attacks = attacks;
 		this.hp = hpMax;
 		this.actionPoints = actionPointsMax;
+		this.attacks = attacks;
+		this.spells = spells;
 	}
 	
 	public Creature(String name, int xp, int hpMax, int baseAC, double actionPointsMax, int hpRegen, int profBonus) {
@@ -45,20 +45,7 @@ public class Creature {
 		this.actionPoints = actionPointsMax;
 	}
 
-	public void regenHp() {
-		this.hp += this.hpRegen;
-		if (this.hp > this.hpMax) {
-			this.hp = this.hpMax;
-		}
-	}
 	
-	public void resetActionPoints() {
-		this.actionPoints = this.actionPointsMax;
-	}
-
-	public void resetHp() {
-		this.hp = this.hpMax;
-	}
 
 	public String getName() {
 		return name;
@@ -139,6 +126,57 @@ public class Creature {
 	public void setAttacks(List<Attack> attacks) {
 		this.attacks = attacks;
 	}
+
+	public List<Spell> getSpells() {
+		return spells;
+	}
+
+	public void setSpells(List<Spell> spells) {
+		this.spells = spells;
+	}
 	
+	
+	
+	
+	
+	public void addAttack(Attack attack) {
+		if (!this.attacks.contains(attack)) {
+			this.attacks.add(attack);			
+		}
+	}
+	
+	public void addSpell(Spell spell) {
+		if (!this.spells.contains(spell)) {
+			this.spells.add(spell);			
+		}
+	}
+	
+	public void regenHp() {
+		this.hp += this.hpRegen;
+		if (this.hp > this.hpMax) {
+			this.hp = this.hpMax;
+		}
+	}
+	
+	public void resetActionPoints() {
+		this.actionPoints = this.actionPointsMax;
+	}
+
+	public void resetHp() {
+		this.hp = this.hpMax;
+	}
+	
+	
+	public void takeDamage(int damageTaken) {
+		this.hp -= damageTaken;
+	}
+	
+	public int getAttackBonus() {
+		return this.profBonus; 
+	}
+	
+	public int getSpellBonus() {
+		return this.profBonus; 
+	}
 	
 }
