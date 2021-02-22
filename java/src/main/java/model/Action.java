@@ -1,4 +1,4 @@
-package com.techelevator.model;
+package model;
 
 public class Action {
 	

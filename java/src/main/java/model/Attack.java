@@ -1,6 +1,6 @@
-package com.techelevator.model;
+package model;
 
-public class Spell extends Action{
+public class Attack extends Action {
 
 	private String damageType1;
 	private String damageType2 = "";
@@ -11,16 +11,21 @@ public class Spell extends Action{
 	private int bonusDamage1;
 	private int bonusDamage2;
 	private boolean hasSecondDamage;
-	private int spellType;
-	private int manaCost;
-	private boolean targetSelf;
+	private boolean magic;
 	
-	
-	public Spell() {
+	public boolean isMagic() {
+		return magic;
+	}
+
+	public void setMagic(boolean magic) {
+		this.magic = magic;
+	}
+
+	public Attack() {
 		
 	}
 	
-	public Spell(String name, double actionCost, int xpCost, String damageType1, int damageDie1, int dieSize1, int bonusDamage1, String damageType2, int damageDie2, int dieSize2, int bonusDamage2, int spellType, int manaCost, boolean targetSelf) {
+	public Attack(String name, double actionCost, int xpCost, String damageType1, int damageDie1, int dieSize1, int bonusDamage1, String damageType2, int damageDie2, int dieSize2, int bonusDamage2, boolean magic) {
 		super(name, actionCost, xpCost);
 		this.damageType1 = damageType1;
 		this.damageDie1 = damageDie1;
@@ -31,21 +36,17 @@ public class Spell extends Action{
 		this.dieSize2 = dieSize2;
 		this.bonusDamage2 = bonusDamage2;
 		hasSecondDamage = true;
-		this.spellType = spellType;
-		this.manaCost = manaCost;
-		this.targetSelf = targetSelf;
+		this.magic = magic;
 	}
 	
-	public Spell(String name, double actionCost, int xpCost, String damageType1, int damageDie1, int dieSize1, int bonusDamage1, int spellType, int manaCost, boolean targetSelf) {
+	public Attack(String name, double actionCost, int xpCost, String damageType1, int damageDie1, int dieSize1, int bonusDamage1, boolean magic) {
 		super(name, actionCost, xpCost);
 		this.damageType1 = damageType1;
 		this.damageDie1 = damageDie1;
 		this.dieSize1 = dieSize1;
 		this.bonusDamage1 = bonusDamage1;
 		hasSecondDamage = false;
-		this.spellType = spellType;
-		this.manaCost = manaCost;
-		this.targetSelf = targetSelf;
+		this.magic = magic;
 	}
 
 	public String getDamageType1() {
@@ -119,29 +120,6 @@ public class Spell extends Action{
 	public void setHasSecondDamage(boolean hasSecondDamage) {
 		this.hasSecondDamage = hasSecondDamage;
 	}
-
-	public int getSpellType() {
-		return spellType;
-	}
-
-	public void setSpellType(int spellType) {
-		this.spellType = spellType;
-	}
-
-	public int getManaCost() {
-		return manaCost;
-	}
-
-	public void setManaCost(int manaCost) {
-		this.manaCost = manaCost;
-	}
-
-	public boolean isTargetSelf() {
-		return targetSelf;
-	}
-
-	public void setTargetSelf(boolean targetSelf) {
-		this.targetSelf = targetSelf;
-	}
+	
 	
 }

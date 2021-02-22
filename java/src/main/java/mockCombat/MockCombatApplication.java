@@ -1,13 +1,13 @@
-package com.techelevator.MockCombatV2;
+package mockCombat;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MockCombatV2Application {
+public class MockCombatApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MockCombatV2Application.class, args);
+		SpringApplication.run(MockCombatApplication.class, args);
 	}
 
 }

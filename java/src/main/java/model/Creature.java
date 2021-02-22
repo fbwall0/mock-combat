@@ -1,9 +1,9 @@
-package com.techelevator.model;
+package model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.techelevator.model.Attack;
+import model.Attack;
 
 public class Creature {
 	

@@ -1,4 +1,4 @@
-package com.techelevator.view;
+package view;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.Scanner;
 
-import com.techelevator.model.Attack;
+import model.Attack;
 
 public class AttackMenu {
 
