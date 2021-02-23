@@ -2,6 +2,7 @@ package model;
 
 public class Spell extends Action{
 
+	private long spellId;
 	private String damageType1;
 	private String damageType2 = "";
 	private int damageDie1;
@@ -20,8 +21,9 @@ public class Spell extends Action{
 		
 	}
 	
-	public Spell(String name, double actionCost, int xpCost, String damageType1, int damageDie1, int dieSize1, int bonusDamage1, String damageType2, int damageDie2, int dieSize2, int bonusDamage2, int spellType, int manaCost, boolean targetSelf) {
+	public Spell(String name, long spellId, double actionCost, int xpCost, String damageType1, int damageDie1, int dieSize1, int bonusDamage1, String damageType2, int damageDie2, int dieSize2, int bonusDamage2, int spellType, int manaCost, boolean targetSelf) {
 		super(name, actionCost, xpCost);
+		this.spellId = spellId;
 		this.damageType1 = damageType1;
 		this.damageDie1 = damageDie1;
 		this.dieSize1 = dieSize1;
@@ -36,8 +38,9 @@ public class Spell extends Action{
 		this.targetSelf = targetSelf;
 	}
 	
-	public Spell(String name, double actionCost, int xpCost, String damageType1, int damageDie1, int dieSize1, int bonusDamage1, int spellType, int manaCost, boolean targetSelf) {
+	public Spell(String name, long spellId, double actionCost, int xpCost, String damageType1, int damageDie1, int dieSize1, int bonusDamage1, int spellType, int manaCost, boolean targetSelf) {
 		super(name, actionCost, xpCost);
+		this.spellId = spellId;
 		this.damageType1 = damageType1;
 		this.damageDie1 = damageDie1;
 		this.dieSize1 = dieSize1;
@@ -143,5 +146,15 @@ public class Spell extends Action{
 	public void setTargetSelf(boolean targetSelf) {
 		this.targetSelf = targetSelf;
 	}
+
+	public long getSpellId() {
+		return spellId;
+	}
+
+	public void setSpellId(long spellId) {
+		this.spellId = spellId;
+	}
+	
+	
 	
 }

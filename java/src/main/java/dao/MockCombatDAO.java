@@ -9,7 +9,7 @@ import model.Spell;
 
 public interface MockCombatDAO {
 	
-	PlayerCharacter createPlayer(PlayerCharacter newPlayer);
+	long createPlayer(String name);
 	
 	List<PlayerCharacter> getPlayers();
 	
@@ -27,7 +27,7 @@ public interface MockCombatDAO {
 	
 	Attack getAttack(long attackId);
 	
-	Enemy createEmeny(Enemy newEnemy);
+	Enemy createEnemy(Enemy newEnemy);
 	
 	Attack createAttack(Attack newAttack);
 	
@@ -48,4 +48,14 @@ public interface MockCombatDAO {
 	void updateEnemy(Enemy updatedEnemy);
 	
 	void deleteEnemy(long enemyId);
+	
+	List<Spell> getPlayerSpells(long playerId);
+
+	List<Attack> getPlayerAttacks(long playerId);
+	
+	List<Spell> getEnemySpells(long enemyId);
+
+	List<Attack> getEnemyAttacks(long enemyId);
+
+	Attack getEnemyAttack(long attackId);
 }

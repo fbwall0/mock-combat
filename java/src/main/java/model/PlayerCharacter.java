@@ -20,9 +20,9 @@ public class PlayerCharacter extends Creature {
 		this.manaMax = manaMax;
 	}
 
-	public PlayerCharacter(String name, long playerId, int xp, int hpMax, int manaMax, int baseAC, double actionPointsMax, int hpRegen, int manaRegen,
+	public PlayerCharacter(String name, long playerId, int xp, int hpMax, int manaMax, int baseAC, int hpRegen, int manaRegen,
 			int profBonus, int strength, int dexterity, int constitution, int magic, int spentXp, List<Attack> attacks, List<Spell> spells) {
-		super(name, xp, hpMax, baseAC, actionPointsMax, hpRegen, profBonus, attacks, spells);
+		super(name, xp, hpMax, baseAC, 1.5, hpRegen, profBonus, attacks, spells);
 		this.playerId = playerId;
 		this.strength = strength;
 		this.dexterity = dexterity;
@@ -32,9 +32,9 @@ public class PlayerCharacter extends Creature {
 		this.manaRegen = manaRegen;
 	}
 
-	public PlayerCharacter(String name, long playerId, int xp, int hpMax,  int manaMax, int baseAC, double actionPointsMax, int hpRegen, int manaRegen,
+	public PlayerCharacter(String name, long playerId, int xp, int hpMax,  int manaMax, int baseAC, int hpRegen, int manaRegen,
 			int profBonus, int strength, int dexterity, int constitution, int magic, int spentXp) {
-		super(name, xp, hpMax, baseAC, actionPointsMax, hpRegen, profBonus);
+		super(name, xp, hpMax, baseAC, 1.5, hpRegen, profBonus);
 		this.playerId = playerId;
 		this.strength = strength;
 		this.dexterity = dexterity;
