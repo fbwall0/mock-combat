@@ -3,8 +3,8 @@ package model;
 public class Spell extends Action{
 
 	private long spellId;
-	private String damageType1;
-	private String damageType2 = "";
+	private int damageType1;
+	private int damageType2 = 0;
 	private int damageDie1;
 	private int damageDie2;
 	private int dieSize1;
@@ -21,7 +21,7 @@ public class Spell extends Action{
 		
 	}
 	
-	public Spell(String name, long spellId, double actionCost, int xpCost, String damageType1, int damageDie1, int dieSize1, int bonusDamage1, String damageType2, int damageDie2, int dieSize2, int bonusDamage2, int spellType, int manaCost, boolean targetSelf) {
+	public Spell(String name, long spellId, double actionCost, int xpCost, int damageType1, int damageDie1, int dieSize1, int bonusDamage1, int damageType2, int damageDie2, int dieSize2, int bonusDamage2, int spellType, int manaCost, boolean targetSelf) {
 		super(name, actionCost, xpCost);
 		this.spellId = spellId;
 		this.damageType1 = damageType1;
@@ -38,7 +38,7 @@ public class Spell extends Action{
 		this.targetSelf = targetSelf;
 	}
 	
-	public Spell(String name, long spellId, double actionCost, int xpCost, String damageType1, int damageDie1, int dieSize1, int bonusDamage1, int spellType, int manaCost, boolean targetSelf) {
+	public Spell(String name, long spellId, double actionCost, int xpCost, int damageType1, int damageDie1, int dieSize1, int bonusDamage1, int spellType, int manaCost, boolean targetSelf) {
 		super(name, actionCost, xpCost);
 		this.spellId = spellId;
 		this.damageType1 = damageType1;
@@ -51,19 +51,19 @@ public class Spell extends Action{
 		this.targetSelf = targetSelf;
 	}
 
-	public String getDamageType1() {
+	public int getDamageType1() {
 		return damageType1;
 	}
 
-	public void setDamageType1(String damageType1) {
+	public void setDamageType1(int damageType1) {
 		this.damageType1 = damageType1;
 	}
 
-	public String getDamageType2() {
+	public int getDamageType2() {
 		return damageType2;
 	}
 
-	public void setDamageType2(String damageType2) {
+	public void setDamageType2(int damageType2) {
 		this.damageType2 = damageType2;
 	}
 

@@ -66,32 +66,62 @@ public class JDBCMockCombatDAO implements MockCombatDAO {
 	
 	@Override
 	public List<Spell> getUnknownSpells(long playerId) {
-		// TODO Auto-generated method stub
-		return null;
+		String sqlStmt = "SELECT * FROM spells WHERE spell_id NOT IN (SELECT spell_id FROM grimoire WHERE player_id = ?)";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlStmt, playerId);
+		List<Spell> spells = new ArrayList<>();
+		while (results.next()) {
+			Spell spell = mapRowToSpell(results);
+			spells.add(spell);
+		}
+		return spells;
 	}
 
 	@Override
 	public List<Attack> getUnknownAttacks(long playerId) {
-		// TODO Auto-generated method stub
-		return null;
+		String sqlStmt = "SELECT * FROM attacks WHERE attack_id NOT IN (SELECT attack_id FROM repertoire WHERE player_id = ?)";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlStmt, playerId);
+		List<Attack> attacks = new ArrayList<>();
+		while (results.next()) {
+			Attack attack = mapRowToAttack(results);
+			attacks.add(attack);
+		}
+		return attacks;
 	}
 
 	@Override
 	public List<Enemy> getAllEnemies() {
-		// TODO Auto-generated method stub
-		return null;
+		String sqlStmt = "SELECT * FROM enemies";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlStmt);
+		List<Enemy> enemies = new ArrayList<>();
+		while (results.next()) {
+			Enemy enemy = mapRowToEnemy(results);
+			enemies.add(enemy);
+		}
+		return enemies;
 	}
 	
 	@Override
 	public List<Spell> getUnknownEnemySpells(long enemyId) {
-		// TODO Auto-generated method stub
-		return null;
+		String sqlStmt = "SELECT * FROM spells WHERE spell_id NOT IN (SELECT spell_id FROM enemy_grimoire WHERE enemy_id = ?)";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlStmt, enemyId);
+		List<Spell> spells = new ArrayList<>();
+		while (results.next()) {
+			Spell spell = mapRowToSpell(results);
+			spells.add(spell);
+		}
+		return spells;
 	}
 
 	@Override
 	public List<Attack> getUnknownEnemyAttacks(long enemyId) {
-		// TODO Auto-generated method stub
-		return null;
+		String sqlStmt = "SELECT * FROM attacks WHERE attack_id NOT IN (SELECT attack_id FROM enemy_repertoire WHERE enemy_id = ?)";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlStmt, enemyId);
+		List<Attack> attacks = new ArrayList<>();
+		while (results.next()) {
+			Attack attack = mapRowToAttack(results);
+			attacks.add(attack);
+		}
+		return attacks;
 	}
 
 	@Override
@@ -151,12 +181,20 @@ public class JDBCMockCombatDAO implements MockCombatDAO {
 
 	@Override
 	public Enemy createEnemy(Enemy newEnemy) {
-		// TODO Auto-generated method stub
-		return null;
+		String sqlStmt = "INSERT INTO enemies (enemy_name, max_health, armor, hit_bonus, max_action_points, description, health_regen) VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING enemy_id";
+		long enemyId = jdbcTemplate.queryForObject(sqlStmt, long.class, new Object[] {newEnemy.getName(), newEnemy.getHpMax(), newEnemy.getBaseAC(), newEnemy.getProfBonus(), newEnemy.getActionPointsMax(), newEnemy.getDescription(), newEnemy.getHpRegen()});
+		return getEnemy(enemyId);
 	}
 
 	@Override
 	public Attack createAttack(Attack newAttack) {
+		String sqlStmt = "INSERT INTO attacks (name, action_cost, damage_dice_1, die_size_1, bonus_damage_1, damage_type_id_1)";
+		
+		return null;
+	}
+	
+	@Override
+	public Attack createEnemyAttack(Attack newAttack) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -271,7 +309,6 @@ public class JDBCMockCombatDAO implements MockCombatDAO {
 		double actionCost = results.getDouble("action_cost");
 		int xpCost = results.getInt("experience_cost");
 		int damageType1Id = results.getInt("damage_type_id_1");
-		String damageType1 = getDamageType(damageType1Id);
 		int damageDie1 = results.getInt("damage_dice_1");
 		int dieSize1 = results.getInt("die_size_1");
 		int bonusDamage1 = results.getInt("bonus_damage_1");
@@ -283,15 +320,15 @@ public class JDBCMockCombatDAO implements MockCombatDAO {
 		int bonusDamage2 = results.getInt("bonus_damage_2");
 		if (damageDie2 * dieSize2 > 0 || bonusDamage2 > 0) {
 			Integer damageType2Id = results.getInt("damage_type_2");
-			String damageType2 = getDamageType(damageType2Id);
-			output = new Spell(name, spellId, actionCost, xpCost, damageType1, damageDie1, dieSize1, bonusDamage1, damageType2, damageDie2, dieSize2, bonusDamage2, spellType, manaCost, targetSelf);
+			output = new Spell(name, spellId, actionCost, xpCost, damageType1Id, damageDie1, dieSize1, bonusDamage1, damageType2Id, damageDie2, dieSize2, bonusDamage2, spellType, manaCost, targetSelf);
 		} else {
-			output = new Spell(name, spellId, actionCost, xpCost, damageType1, damageDie1, dieSize1, bonusDamage1, spellType, manaCost, targetSelf);
+			output = new Spell(name, spellId, actionCost, xpCost, damageType1Id, damageDie1, dieSize1, bonusDamage1, spellType, manaCost, targetSelf);
 		}
 		return output;
 	}
 
-	private String getDamageType(Integer damageType2Id) {
+	@Override
+	public String getDamageType(Integer damageType2Id) {
 		String sqlStmt = "SELECT description FROM damage_types WHERE damage_type_id = ?";
 		SqlRowSet result = jdbcTemplate.queryForRowSet(sqlStmt, damageType2Id);
 		String output = "";
@@ -320,7 +357,6 @@ public class JDBCMockCombatDAO implements MockCombatDAO {
 		double actionCost = results.getDouble("action_cost");
 		int xpCost = results.getInt("experience_cost");
 		int damageType1Id = results.getInt("damage_type_id_1");
-		String damageType1 = getDamageType(damageType1Id);
 		int damageDie1 = results.getInt("damage_dice_1");
 		int dieSize1 = results.getInt("die_size_1");
 		int bonusDamage1 = results.getInt("bonus_damage_1");
@@ -330,10 +366,9 @@ public class JDBCMockCombatDAO implements MockCombatDAO {
 		int bonusDamage2 = results.getInt("bonus_damage_2");
 		if (damageDie2 * dieSize2 > 0 || bonusDamage2 > 0) {
 			Integer damageType2Id = results.getInt("damage_type_2");
-			String damageType2 = getDamageType(damageType2Id);
-			output = new Attack(name, attackId, actionCost, xpCost, damageType1, damageDie1, dieSize1, bonusDamage1, damageType2, damageDie2, dieSize2, bonusDamage2, magic);
+			output = new Attack(name, attackId, actionCost, xpCost, damageType1Id, damageDie1, dieSize1, bonusDamage1, damageType2Id, damageDie2, dieSize2, bonusDamage2, magic);
 		} else {
-			output = new Attack(name, attackId, actionCost, xpCost, damageType1, damageDie1, dieSize1, bonusDamage1, magic);
+			output = new Attack(name, attackId, actionCost, xpCost, damageType1Id, damageDie1, dieSize1, bonusDamage1, magic);
 		}
 		return output;
 	}

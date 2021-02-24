@@ -5,7 +5,7 @@ import java.util.List;
 public class Enemy extends Creature {
 	
 	private double challenge;
-	private String description;
+	private String description = "";
 	private List<Spell> spells;
 	private List<Attack> attacks;
 	

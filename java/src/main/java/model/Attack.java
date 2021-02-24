@@ -3,14 +3,14 @@ package model;
 public class Attack extends Action {
 
 	private long attackId;
-	private String damageType1;
-	private String damageType2 = "";
+	private int damageType1;
+	private int damageType2 = 0;
 	private int damageDie1;
-	private int damageDie2;
+	private int damageDie2 = 0;
 	private int dieSize1;
-	private int dieSize2;
+	private int dieSize2 = 0;
 	private int bonusDamage1;
-	private int bonusDamage2;
+	private int bonusDamage2 = 0;
 	private boolean hasSecondDamage;
 	private boolean magic;
 	
@@ -26,7 +26,7 @@ public class Attack extends Action {
 		
 	}
 	
-	public Attack(String name, long attackId, double actionCost, int xpCost, String damageType1, int damageDie1, int dieSize1, int bonusDamage1, String damageType2, int damageDie2, int dieSize2, int bonusDamage2, boolean magic) {
+	public Attack(String name, long attackId, double actionCost, int xpCost, int damageType1, int damageDie1, int dieSize1, int bonusDamage1, int damageType2, int damageDie2, int dieSize2, int bonusDamage2, boolean magic) {
 		super(name, actionCost, xpCost);
 		this.attackId = attackId;
 		this.damageType1 = damageType1;
@@ -41,7 +41,7 @@ public class Attack extends Action {
 		this.magic = magic;
 	}
 	
-	public Attack(String name, long attackId, double actionCost, int xpCost, String damageType1, int damageDie1, int dieSize1, int bonusDamage1, boolean magic) {
+	public Attack(String name, long attackId, double actionCost, int xpCost, int damageType1, int damageDie1, int dieSize1, int bonusDamage1, boolean magic) {
 		super(name, actionCost, xpCost);
 		this.attackId = attackId;
 		this.damageType1 = damageType1;
@@ -52,19 +52,19 @@ public class Attack extends Action {
 		this.magic = magic;
 	}
 
-	public String getDamageType1() {
+	public int getDamageType1() {
 		return damageType1;
 	}
 
-	public void setDamageType1(String damageType1) {
+	public void setDamageType1(int damageType1) {
 		this.damageType1 = damageType1;
 	}
 
-	public String getDamageType2() {
+	public int getDamageType2() {
 		return damageType2;
 	}
 
-	public void setDamageType2(String damageType2) {
+	public void setDamageType2(int damageType2) {
 		this.damageType2 = damageType2;
 	}
 

@@ -273,7 +273,7 @@ CREATE OR REPLACE FUNCTION update_spell() RETURNS TRIGGER AS '
         NEW.damage_dice_1 = 1;
     END IF;
 
-    IF NEW.damage_dice_2 = 0 OR NEW.die_size_2 = 0 OR NEW.damage_type_id_2 IS NULL THEN
+    IF (NEW.damage_dice_2 * NEW.die_size_2 = 0 AND NEW.bonus_damge_2 = 0) OR NEW.damage_type_id_2 IS NULL THEN
         NEW.has_second_damage = false;
     ELSE
         NEW.has_second_damage = true;
@@ -308,7 +308,7 @@ CREATE OR REPLACE FUNCTION update_attack() RETURNS TRIGGER AS '
         NEW.damage_dice_1 = 1;
     END IF;
     
-    IF NEW.damage_dice_2 = 0 OR NEW.die_size_2 = 0 OR NEW.damage_type_id_2 IS NULL THEN
+    IF (NEW.damage_dice_2 * NEW.die_size_2 = 0 AND NEW.bonus_damge_2 = 0) OR NEW.damage_type_id_2 IS NULL THEN
         NEW.has_second_damage = false;
     ELSE
         NEW.has_second_damage = true;
@@ -339,7 +339,7 @@ CREATE OR REPLACE FUNCTION update_enemy_attack() RETURNS TRIGGER AS '
         NEW.damage_dice_1 = 1;
     END IF;
     
-    IF NEW.damage_dice_2 = 0 OR NEW.die_size_2 = 0 OR NEW.damage_type_id_2 IS NULL THEN
+    IF (NEW.damage_dice_2 * NEW.die_size_2 = 0 AND NEW.bonus_damge_2 = 0) OR NEW.damage_type_id_2 IS NULL THEN
         NEW.has_second_damage = false;
     ELSE
         NEW.has_second_damage = true;

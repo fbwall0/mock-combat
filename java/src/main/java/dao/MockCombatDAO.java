@@ -66,4 +66,8 @@ public interface MockCombatDAO {
 	List<Spell> getUnknownEnemySpells(long enemyId);
 
 	List<Attack> getUnknownEnemyAttacks(long enemyId);
+
+	Attack createEnemyAttack(Attack newAttack);
+
+	String getDamageType(Integer damageType2Id);
 }
