@@ -35,24 +35,61 @@ public class JDBCMockCombatDAO implements MockCombatDAO {
 		List<PlayerCharacter> players = new ArrayList<>();
 		while (results.next()) {
 			PlayerCharacter player = mapRowToPlayer(results);
+			players.add(player);
 		}
-		return null;
+		return players;
 	}
 
 	@Override
 	public List<Spell> getAllSpells() {
+		String sqlStmt = "SELECT * FROM spells";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlStmt);
+		List<Spell> spells = new ArrayList<>();
+		while (results.next()) {
+			Spell spell = mapRowToSpell(results);
+			spells.add(spell);
+		}
+		return spells;
+	}
+
+	@Override
+	public List<Attack> getAllAttacks() {
+		String sqlStmt = "SELECT * FROM attacks";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlStmt);
+		List<Attack> attacks = new ArrayList<>();
+		while (results.next()) {
+			Attack attack = mapRowToAttack(results);
+			attacks.add(attack);
+		}
+		return attacks;
+	}
+	
+	@Override
+	public List<Spell> getUnknownSpells(long playerId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Attack> getAllAttacks() {
+	public List<Attack> getUnknownAttacks(long playerId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<Enemy> getAllEnemies() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public List<Spell> getUnknownEnemySpells(long enemyId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Attack> getUnknownEnemyAttacks(long enemyId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

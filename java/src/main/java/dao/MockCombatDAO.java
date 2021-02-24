@@ -58,4 +58,12 @@ public interface MockCombatDAO {
 	List<Attack> getEnemyAttacks(long enemyId);
 
 	Attack getEnemyAttack(long attackId);
+
+	List<Spell> getUnknownSpells(long playerId);
+
+	List<Attack> getUnknownAttacks(long playerId);
+
+	List<Spell> getUnknownEnemySpells(long enemyId);
+
+	List<Attack> getUnknownEnemyAttacks(long enemyId);
 }
