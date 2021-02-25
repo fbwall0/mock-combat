@@ -188,21 +188,45 @@ public class JDBCMockCombatDAO implements MockCombatDAO {
 
 	@Override
 	public Attack createAttack(Attack newAttack) {
-		String sqlStmt = "INSERT INTO attacks (name, action_cost, damage_dice_1, die_size_1, bonus_damage_1, damage_type_id_1)";
-		
-		return null;
+		String sqlStmt = "";
+		long attackId = 0;
+		if (!newAttack.isHasSecondDamage()) {
+			sqlStmt = "INSERT INTO attacks (name, action_cost, damage_dice_1, die_size_1, bonus_damage_1, damage_type_id_1, is_magic) VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING attack_id";
+			attackId = jdbcTemplate.update(sqlStmt, long.class, new Object[] {newAttack.getName(), newAttack.getActionCost(), newAttack.getDamageDie1(), newAttack.getDieSize1(), newAttack.getBonusDamage1(), newAttack.getDamageType1(), newAttack.isMagic()});
+		} else {
+			sqlStmt = "INSERT INTO attacks (name, action_cost, damage_dice_1, die_size_1, bonus_damage_1, damage_type_id_1, is_magic, damage_dice_2, die_size_2, bonus_damage_2, damage_type_id_2) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING attack_id";
+			attackId = jdbcTemplate.update(sqlStmt, long.class, new Object[] {newAttack.getName(), newAttack.getActionCost(), newAttack.getDamageDie1(), newAttack.getDieSize1(), newAttack.getBonusDamage1(), newAttack.getDamageType1(), newAttack.isMagic(), newAttack.getDamageDie2(), newAttack.getDieSize2(), newAttack.getBonusDamage2(), newAttack.getDamageType2()});
+		}
+		return getAttack(attackId);
 	}
 	
 	@Override
 	public Attack createEnemyAttack(Attack newAttack) {
-		// TODO Auto-generated method stub
-		return null;
+		String sqlStmt = "";
+		long attackId = 0;
+		if (!newAttack.isHasSecondDamage()) {
+			sqlStmt = "INSERT INTO attacks (name, action_cost, damage_dice_1, die_size_1, bonus_damage_1, damage_type_id_1, is_magic) VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING attack_id";
+			attackId = jdbcTemplate.update(sqlStmt, long.class, new Object[] {newAttack.getName(), newAttack.getActionCost(), newAttack.getDamageDie1(), newAttack.getDieSize1(), newAttack.getBonusDamage1(), newAttack.getDamageType1(), newAttack.isMagic()});
+		} else {
+			sqlStmt = "INSERT INTO attacks (name, action_cost, damage_dice_1, die_size_1, bonus_damage_1, damage_type_id_1, is_magic, damage_dice_2, die_size_2, bonus_damage_2, damage_type_id_2) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING attack_id";
+			attackId = jdbcTemplate.update(sqlStmt, long.class, new Object[] {newAttack.getName(), newAttack.getActionCost(), newAttack.getDamageDie1(), newAttack.getDieSize1(), newAttack.getBonusDamage1(), newAttack.getDamageType1(), newAttack.isMagic(), newAttack.getDamageDie2(), newAttack.getDieSize2(), newAttack.getBonusDamage2(), newAttack.getDamageType2()});
+		}
+		newAttack.setAttackId(attackId);
+		return newAttack;
 	}
 
 	@Override
 	public Spell createSpell(Spell newSpell) {
-		// TODO Auto-generated method stub
-		return null;
+		String sqlStmt = "";
+		long spellId = 0;
+		if (!newSpell.isHasSecondDamage()) {
+			sqlStmt = "INSERT INTO attacks (name, action_cost, damage_dice_1, die_size_1, bonus_damage_1, damage_type_id_1, mana_cost, target_self, spell_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING spell_id";
+			spellId = jdbcTemplate.update(sqlStmt, long.class, new Object[] {newSpell.getName(), newSpell.getActionCost(), newSpell.getDamageDie1(), newSpell.getDieSize1(), newSpell.getBonusDamage1(), newSpell.getDamageType1(), newSpell.getManaCost(), newSpell.isTargetSelf(), newSpell.getSpellType()});
+		} else {
+			sqlStmt = "INSERT INTO attacks (name, action_cost, damage_dice_1, die_size_1, bonus_damage_1, damage_type_id_1, mana_cost, target_self, spell_type, damage_dice_2, die_size_2, bonus_damage_2, damage_type_id_2) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING spell_id";
+			spellId = jdbcTemplate.update(sqlStmt, long.class, new Object[] {newSpell.getName(), newSpell.getActionCost(), newSpell.getDamageDie1(), newSpell.getDieSize1(), newSpell.getBonusDamage1(), newSpell.getDamageType1(), newSpell.getManaCost(), newSpell.isTargetSelf(), newSpell.getSpellType(), newSpell.getDamageDie2(), newSpell.getDieSize2(), newSpell.getBonusDamage2(), newSpell.getDamageType2()});
+		}
+		return getSpell(spellId);
 	}
 
 	@Override
@@ -217,38 +241,43 @@ public class JDBCMockCombatDAO implements MockCombatDAO {
 
 	@Override
 	public PlayerCharacter learnAttack(long playerId, long attackId) {
-		// TODO Auto-generated method stub
-		return null;
+		String sqlStmt = "INSERT INTO repertoire (player_id, attack_id) VALUES (?, ?)";
+		jdbcTemplate.update(sqlStmt, playerId, attackId);
+		return getPlayer(playerId);
 	}
 
 	@Override
 	public PlayerCharacter learnSpell(long playerId, long spellId) {
-		// TODO Auto-generated method stub
-		return null;
+		String sqlStmt = "INSERT INTO grimoire (player_id, spell_id) VALUES (?, ?)";
+		jdbcTemplate.update(sqlStmt, playerId, spellId);
+		return getPlayer(playerId);
 	}
 
 	@Override
 	public Enemy enemyLearnAttack(long enemyId, long attackId) {
-		// TODO Auto-generated method stub
-		return null;
+		String sqlStmt = "INSERT INTO enemy_repertoire (enemy_id, attack_id) VALUES (?, ?)";
+		jdbcTemplate.update(sqlStmt, enemyId, attackId);
+		return getEnemy(enemyId);
 	}
 
 	@Override
 	public Enemy enemyLearnSpell(long enemyId, long spellId) {
-		// TODO Auto-generated method stub
-		return null;
+		String sqlStmt = "INSERT INTO enemy_grimoire (enemy_id, spell_id) VALUES (?, ?)";
+		jdbcTemplate.update(sqlStmt, enemyId, spellId);
+		return getEnemy(enemyId);
 	}
 
 	@Override
 	public void updatePlayer(PlayerCharacter updatedPlayer) {
-		// TODO Auto-generated method stub
-
+		String sqlStmt = "UPDATE players SET player_name = ?, experience = ?, spent_experience = ?, proficiency_bonus = ?, base_health = ?, base_mana = ?, base_armor = ?, health_regen = ?, mana_regen = ?, strength = ?, dexterity = ?, constitution = ?, magic = ? WHERE player_id = ?";
+		jdbcTemplate.update(sqlStmt, updatedPlayer.getName(), updatedPlayer.getXp(), updatedPlayer.getSpentXp(), updatedPlayer.getProfBonus(), updatedPlayer.getHpMax(), updatedPlayer.getManaMax(), updatedPlayer.getBaseAC(), updatedPlayer.getHpRegen(), updatedPlayer.getManaRegen(), updatedPlayer.getStrength(), updatedPlayer.getDexterity(), updatedPlayer.getConstitution(), updatedPlayer.getMagic(), updatedPlayer.getPlayerId());
 	}
 
 	@Override
-	public void updateEnemy(Enemy updatedEnemy) {
-		// TODO Auto-generated method stub
-
+	public Enemy updateEnemy(Enemy updatedEnemy) {
+		String sqlStmt = "UPDATE enemies SET enemy_name = ?, hit_bonus = ?, max_health = ?, armor = ?, health_regen = ?, max_action_points = ? , description = ? WHERE enemy_id = ?";
+		jdbcTemplate.update(sqlStmt, updatedEnemy.getName(), updatedEnemy.getProfBonus(), updatedEnemy.getHpMax(), updatedEnemy.getBaseAC(), updatedEnemy.getHpRegen(), updatedEnemy.getActionPointsMax(), updatedEnemy.getDescription());
+		return getEnemy(updatedEnemy.getEnemyId());
 	}
 
 	@Override
@@ -386,7 +415,7 @@ public class JDBCMockCombatDAO implements MockCombatDAO {
 		String description = result.getString("description");
 		List<Attack> attacks = getEnemyAttacks(enemyId);
 		List<Spell> spells = getEnemySpells(enemyId);
-		Enemy enemy = new Enemy(name, experience, hpMax, baseAC, maxActionPoints, healthRegen, profBonus, challenge, description, attacks, spells);
+		Enemy enemy = new Enemy(enemyId, name, experience, hpMax, baseAC, maxActionPoints, healthRegen, profBonus, challenge, description, attacks, spells);
 		return enemy;
 	}
 	

@@ -181,4 +181,10 @@ public class PlayerCharacter extends Creature {
 		this.setActionPoints(this.getMaxActionPoints());
 	}
 
+	public int getManaMax() {
+		return manaMax;
+	}
+	
+	
+
 }

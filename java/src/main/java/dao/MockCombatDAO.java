@@ -45,7 +45,7 @@ public interface MockCombatDAO {
 	
 	void updatePlayer(PlayerCharacter updatedPlayer);
 	
-	void updateEnemy(Enemy updatedEnemy);
+	Enemy updateEnemy(Enemy updatedEnemy);
 	
 	void deleteEnemy(long enemyId);
 	
