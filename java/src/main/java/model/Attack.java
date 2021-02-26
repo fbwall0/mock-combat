@@ -51,6 +51,32 @@ public class Attack extends Action {
 		hasSecondDamage = false;
 		this.magic = magic;
 	}
+	
+	public Attack(String name, long attackId, double actionCost, int damageType1, int damageDie1, int dieSize1, int bonusDamage1, int damageType2, int damageDie2, int dieSize2, int bonusDamage2, boolean magic) {
+		super(name, actionCost, 0);
+		this.attackId = attackId;
+		this.damageType1 = damageType1;
+		this.damageDie1 = damageDie1;
+		this.dieSize1 = dieSize1;
+		this.bonusDamage1 = bonusDamage1;
+		this.damageType2 = damageType2;
+		this.damageDie2 = damageDie2;
+		this.dieSize2 = dieSize2;
+		this.bonusDamage2 = bonusDamage2;
+		hasSecondDamage = true;
+		this.magic = magic;
+	}
+	
+	public Attack(String name, long attackId, double actionCost, int damageType1, int damageDie1, int dieSize1, int bonusDamage1, boolean magic) {
+		super(name, actionCost, 0);
+		this.attackId = attackId;
+		this.damageType1 = damageType1;
+		this.damageDie1 = damageDie1;
+		this.dieSize1 = dieSize1;
+		this.bonusDamage1 = bonusDamage1;
+		hasSecondDamage = false;
+		this.magic = magic;
+	}
 
 	public int getDamageType1() {
 		return damageType1;

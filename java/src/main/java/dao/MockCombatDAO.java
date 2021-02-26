@@ -70,4 +70,6 @@ public interface MockCombatDAO {
 	Attack createEnemyAttack(Attack newAttack);
 
 	String getDamageType(Integer damageType2Id);
+
+	List<Attack> getAllEnemyAttacks();
 }

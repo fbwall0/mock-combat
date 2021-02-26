@@ -65,6 +65,18 @@ public class JDBCMockCombatDAO implements MockCombatDAO {
 	}
 	
 	@Override
+	public List<Attack> getAllEnemyAttacks() {
+		String sqlStmt = "SELECT * FROM enemy_attacks";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlStmt);
+		List<Attack> attacks = new ArrayList<>();
+		while (results.next()) {
+			Attack attack = mapRowToEnemyAttack(results);
+			attacks.add(attack);
+		}
+		return attacks;
+	}
+	
+	@Override
 	public List<Spell> getUnknownSpells(long playerId) {
 		String sqlStmt = "SELECT * FROM spells WHERE spell_id NOT IN (SELECT spell_id FROM grimoire WHERE player_id = ?)";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlStmt, playerId);
@@ -398,6 +410,29 @@ public class JDBCMockCombatDAO implements MockCombatDAO {
 			output = new Attack(name, attackId, actionCost, xpCost, damageType1Id, damageDie1, dieSize1, bonusDamage1, damageType2Id, damageDie2, dieSize2, bonusDamage2, magic);
 		} else {
 			output = new Attack(name, attackId, actionCost, xpCost, damageType1Id, damageDie1, dieSize1, bonusDamage1, magic);
+		}
+		return output;
+	}
+	
+	private Attack mapRowToEnemyAttack(SqlRowSet results) {
+		Attack output;
+		long attackId = results.getLong("spell_id");
+		String name = results.getString("name");
+		double actionCost = results.getDouble("action_cost");
+		int xpCost = results.getInt("experience_cost");
+		int damageType1Id = results.getInt("damage_type_id_1");
+		int damageDie1 = results.getInt("damage_dice_1");
+		int dieSize1 = results.getInt("die_size_1");
+		int bonusDamage1 = results.getInt("bonus_damage_1");
+		boolean magic = results.getBoolean("is_magic");
+		int damageDie2 = results.getInt("damage_dice_2");
+		int dieSize2 = results.getInt("die_size_2");
+		int bonusDamage2 = results.getInt("bonus_damage_2");
+		if (damageDie2 * dieSize2 > 0 || bonusDamage2 > 0) {
+			Integer damageType2Id = results.getInt("damage_type_2");
+			output = new Attack(name, attackId, actionCost, damageType1Id, damageDie1, dieSize1, bonusDamage1, damageType2Id, damageDie2, dieSize2, bonusDamage2, magic);
+		} else {
+			output = new Attack(name, attackId, actionCost, damageType1Id, damageDie1, dieSize1, bonusDamage1, magic);
 		}
 		return output;
 	}
