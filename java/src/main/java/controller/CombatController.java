@@ -203,5 +203,39 @@ public class CombatController {
 		return enemy;
 	}
 	
+	@GetMapping(path = "/player/{id}/spells")
+	public List<Spell> getPlayerSpells(@PathVariable long id) {
+		List<Spell> spells = combat.getPlayerSpells(id);
+		
+		return spells;
+	}
+	
+	@GetMapping(path = "/player/{id}/attacks")
+	public List<Attack> getPlayerAttacks(@PathVariable long id) {
+		List<Attack> attacks = combat.getPlayerAttacks(id);
+		
+		return attacks;
+	}
+	
+	@GetMapping(path = "/enemy/{id}/spells")
+	public List<Spell> getEnemySpells(@PathVariable long id) {
+		List<Spell> spells = combat.getEnemySpells(id);
+		
+		return spells;
+	}
+	
+	@GetMapping(path = "/enemy/{id}/attacks")
+	public List<Attack> getEnemyAttacks(@PathVariable long id) {
+		List<Attack> attacks = combat.getEnemyAttacks(id);
+		
+		return attacks;
+	}
+	
+	@GetMapping(path = "/damageType/{id}")
+	public String getDamageType(@PathVariable Integer id) {
+		String description = combat.getDamageType(id);
+		
+		return description;
+	}
 	
 }

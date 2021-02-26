@@ -472,7 +472,7 @@ public class JDBCMockCombatDAO implements MockCombatDAO {
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlStmt, enemyId);
 		List<Attack> output = new ArrayList<>();
 		while (results.next()) {
-			Attack attack = mapRowToAttack(results);
+			Attack attack = mapRowToEnemyAttack(results);
 			output.add(attack);
 		}
 		return output;
