@@ -1,4 +1,4 @@
-package controller;
+package mockCombat.controller;
 
 import java.util.List;
 
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dao.MockCombatDAO;
-import model.Attack;
-import model.Enemy;
-import model.PlayerCharacter;
-import model.Spell;
+import mockCombat.dao.MockCombatDAO;
+import mockCombat.model.Attack;
+import mockCombat.model.Enemy;
+import mockCombat.model.PlayerCharacter;
+import mockCombat.model.Spell;
 
 @RestController
 @RequestMapping("/api")

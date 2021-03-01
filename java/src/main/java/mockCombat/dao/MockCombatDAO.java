@@ -1,11 +1,11 @@
-package dao;
+package mockCombat.dao;
 
 import java.util.List;
 
-import model.Attack;
-import model.Enemy;
-import model.PlayerCharacter;
-import model.Spell;
+import mockCombat.model.Attack;
+import mockCombat.model.Enemy;
+import mockCombat.model.PlayerCharacter;
+import mockCombat.model.Spell;
 
 public interface MockCombatDAO {
 	

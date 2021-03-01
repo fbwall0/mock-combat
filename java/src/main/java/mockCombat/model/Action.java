@@ -1,4 +1,4 @@
-package model;
+package mockCombat.model;
 
 public class Action {
 	

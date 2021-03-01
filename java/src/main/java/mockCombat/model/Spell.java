@@ -1,34 +1,29 @@
-package model;
+package mockCombat.model;
 
-public class Attack extends Action {
+public class Spell extends Action{
 
-	private long attackId;
+	private long spellId;
 	private int damageType1;
 	private int damageType2 = 0;
 	private int damageDie1;
-	private int damageDie2 = 0;
+	private int damageDie2;
 	private int dieSize1;
-	private int dieSize2 = 0;
+	private int dieSize2;
 	private int bonusDamage1;
-	private int bonusDamage2 = 0;
+	private int bonusDamage2;
 	private boolean hasSecondDamage;
-	private boolean magic;
+	private int spellType;
+	private int manaCost;
+	private boolean targetSelf;
 	
-	public boolean isMagic() {
-		return magic;
-	}
-
-	public void setMagic(boolean magic) {
-		this.magic = magic;
-	}
-
-	public Attack() {
+	
+	public Spell() {
 		
 	}
 	
-	public Attack(String name, long attackId, double actionCost, int xpCost, int damageType1, int damageDie1, int dieSize1, int bonusDamage1, int damageType2, int damageDie2, int dieSize2, int bonusDamage2, boolean magic) {
+	public Spell(String name, long spellId, double actionCost, int xpCost, int damageType1, int damageDie1, int dieSize1, int bonusDamage1, int damageType2, int damageDie2, int dieSize2, int bonusDamage2, int spellType, int manaCost, boolean targetSelf) {
 		super(name, actionCost, xpCost);
-		this.attackId = attackId;
+		this.spellId = spellId;
 		this.damageType1 = damageType1;
 		this.damageDie1 = damageDie1;
 		this.dieSize1 = dieSize1;
@@ -38,44 +33,22 @@ public class Attack extends Action {
 		this.dieSize2 = dieSize2;
 		this.bonusDamage2 = bonusDamage2;
 		hasSecondDamage = true;
-		this.magic = magic;
+		this.spellType = spellType;
+		this.manaCost = manaCost;
+		this.targetSelf = targetSelf;
 	}
 	
-	public Attack(String name, long attackId, double actionCost, int xpCost, int damageType1, int damageDie1, int dieSize1, int bonusDamage1, boolean magic) {
+	public Spell(String name, long spellId, double actionCost, int xpCost, int damageType1, int damageDie1, int dieSize1, int bonusDamage1, int spellType, int manaCost, boolean targetSelf) {
 		super(name, actionCost, xpCost);
-		this.attackId = attackId;
+		this.spellId = spellId;
 		this.damageType1 = damageType1;
 		this.damageDie1 = damageDie1;
 		this.dieSize1 = dieSize1;
 		this.bonusDamage1 = bonusDamage1;
 		hasSecondDamage = false;
-		this.magic = magic;
-	}
-	
-	public Attack(String name, long attackId, double actionCost, int damageType1, int damageDie1, int dieSize1, int bonusDamage1, int damageType2, int damageDie2, int dieSize2, int bonusDamage2, boolean magic) {
-		super(name, actionCost, 0);
-		this.attackId = attackId;
-		this.damageType1 = damageType1;
-		this.damageDie1 = damageDie1;
-		this.dieSize1 = dieSize1;
-		this.bonusDamage1 = bonusDamage1;
-		this.damageType2 = damageType2;
-		this.damageDie2 = damageDie2;
-		this.dieSize2 = dieSize2;
-		this.bonusDamage2 = bonusDamage2;
-		hasSecondDamage = true;
-		this.magic = magic;
-	}
-	
-	public Attack(String name, long attackId, double actionCost, int damageType1, int damageDie1, int dieSize1, int bonusDamage1, boolean magic) {
-		super(name, actionCost, 0);
-		this.attackId = attackId;
-		this.damageType1 = damageType1;
-		this.damageDie1 = damageDie1;
-		this.dieSize1 = dieSize1;
-		this.bonusDamage1 = bonusDamage1;
-		hasSecondDamage = false;
-		this.magic = magic;
+		this.spellType = spellType;
+		this.manaCost = manaCost;
+		this.targetSelf = targetSelf;
 	}
 
 	public int getDamageType1() {
@@ -150,13 +123,38 @@ public class Attack extends Action {
 		this.hasSecondDamage = hasSecondDamage;
 	}
 
-	public long getAttackId() {
-		return attackId;
+	public int getSpellType() {
+		return spellType;
 	}
 
-	public void setAttackId(long attackId) {
-		this.attackId = attackId;
+	public void setSpellType(int spellType) {
+		this.spellType = spellType;
 	}
+
+	public int getManaCost() {
+		return manaCost;
+	}
+
+	public void setManaCost(int manaCost) {
+		this.manaCost = manaCost;
+	}
+
+	public boolean isTargetSelf() {
+		return targetSelf;
+	}
+
+	public void setTargetSelf(boolean targetSelf) {
+		this.targetSelf = targetSelf;
+	}
+
+	public long getSpellId() {
+		return spellId;
+	}
+
+	public void setSpellId(long spellId) {
+		this.spellId = spellId;
+	}
+	
 	
 	
 }

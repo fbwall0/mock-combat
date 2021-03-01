@@ -1,4 +1,4 @@
-package model;
+package mockCombat.model;
 
 import java.util.List;
 

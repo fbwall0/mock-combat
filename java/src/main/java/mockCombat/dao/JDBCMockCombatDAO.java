@@ -1,4 +1,4 @@
-package dao;
+package mockCombat.dao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,10 +7,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
-import model.Attack;
-import model.Enemy;
-import model.PlayerCharacter;
-import model.Spell;
+import mockCombat.model.Attack;
+import mockCombat.model.Enemy;
+import mockCombat.model.PlayerCharacter;
+import mockCombat.model.Spell;
 
 @Component
 public class JDBCMockCombatDAO implements MockCombatDAO {
@@ -393,7 +393,7 @@ public class JDBCMockCombatDAO implements MockCombatDAO {
 
 	private Attack mapRowToAttack(SqlRowSet results) {
 		Attack output;
-		long attackId = results.getLong("spell_id");
+		long attackId = results.getLong("attack_id");
 		String name = results.getString("name");
 		double actionCost = results.getDouble("action_cost");
 		int xpCost = results.getInt("experience_cost");
@@ -416,10 +416,9 @@ public class JDBCMockCombatDAO implements MockCombatDAO {
 	
 	private Attack mapRowToEnemyAttack(SqlRowSet results) {
 		Attack output;
-		long attackId = results.getLong("spell_id");
+		long attackId = results.getLong("enemy_attack_id");
 		String name = results.getString("name");
 		double actionCost = results.getDouble("action_cost");
-		int xpCost = results.getInt("experience_cost");
 		int damageType1Id = results.getInt("damage_type_id_1");
 		int damageDie1 = results.getInt("damage_dice_1");
 		int dieSize1 = results.getInt("die_size_1");

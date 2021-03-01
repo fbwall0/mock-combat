@@ -397,7 +397,16 @@ INSERT INTO enemy_repertoire (enemy_id, enemy_attack_id)
 COMMIT TRANSACTION;
 
 --Creating user Login
-BEGIN TRANSACTION;
+CREATE USER mock_combat_owner
+WITH PASSWORD 'mockcombat';
+
+GRANT ALL
+ON ALL TABLES IN SCHEMA public
+TO mock_combat_owner;
+
+GRANT ALL
+ON ALL SEQUENCES IN SCHEMA public
+TO mock_combat_owner;
 
 CREATE USER mock_combat_user
 WITH PASSWORD 'mockcombat';
@@ -409,5 +418,3 @@ TO mock_combat_user;
 GRANT USAGE, SELECT
 ON ALL SEQUENCES IN SCHEMA public
 TO mock_combat_user;
-
-COMMIT TRANSACTION;
