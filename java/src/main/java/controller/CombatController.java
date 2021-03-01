@@ -27,6 +27,11 @@ public class CombatController {
 	@Autowired
 	MockCombatDAO combat;
 	
+	@GetMapping(path= "/")
+	public String test() {
+		return "Test";
+	}
+	
 	@GetMapping(path = "/players")
 	public List<PlayerCharacter> getAllPlayers() {
 		List<PlayerCharacter> players = combat.getPlayers();
