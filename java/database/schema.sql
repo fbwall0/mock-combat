@@ -273,7 +273,7 @@ CREATE OR REPLACE FUNCTION update_spell() RETURNS TRIGGER AS '
         NEW.damage_dice_1 = 1;
     END IF;
 
-    IF (NEW.damage_dice_2 * NEW.die_size_2 = 0 AND NEW.bonus_damge_2 = 0) OR NEW.damage_type_id_2 IS NULL THEN
+    IF (NEW.damage_dice_2 * NEW.die_size_2 = 0 AND NEW.bonus_damage_2 = 0) OR NEW.damage_type_id_2 IS NULL THEN
         NEW.has_second_damage = false;
     ELSE
         NEW.has_second_damage = true;
@@ -308,7 +308,7 @@ CREATE OR REPLACE FUNCTION update_attack() RETURNS TRIGGER AS '
         NEW.damage_dice_1 = 1;
     END IF;
     
-    IF (NEW.damage_dice_2 * NEW.die_size_2 = 0 AND NEW.bonus_damge_2 = 0) OR NEW.damage_type_id_2 IS NULL THEN
+    IF (NEW.damage_dice_2 * NEW.die_size_2 = 0 AND NEW.bonus_damage_2 = 0) OR NEW.damage_type_id_2 IS NULL THEN
         NEW.has_second_damage = false;
     ELSE
         NEW.has_second_damage = true;
@@ -339,7 +339,7 @@ CREATE OR REPLACE FUNCTION update_enemy_attack() RETURNS TRIGGER AS '
         NEW.damage_dice_1 = 1;
     END IF;
     
-    IF (NEW.damage_dice_2 * NEW.die_size_2 = 0 AND NEW.bonus_damge_2 = 0) OR NEW.damage_type_id_2 IS NULL THEN
+    IF (NEW.damage_dice_2 * NEW.die_size_2 = 0 AND NEW.bonus_damage_2 = 0) OR NEW.damage_type_id_2 IS NULL THEN
         NEW.has_second_damage = false;
     ELSE
         NEW.has_second_damage = true;
@@ -393,5 +393,21 @@ INSERT INTO enemies (enemy_name, max_health, armor, hit_bonus, max_action_points
 
 INSERT INTO enemy_repertoire (enemy_id, enemy_attack_id)
   VALUES (1, 4), (2, 1), (2, 2), (2, 3), (3, 4), (3, 5), (3, 6);
+
+COMMIT TRANSACTION;
+
+--Creating user Login
+BEGIN TRANSACTION;
+
+CREATE USER mock_combat_user
+WITH PASSWORD 'mockcombat';
+
+GRANT SELECT, INSERT, UPDATE, DELETE
+ON ALL TABLES IN SCHEMA public
+TO mock_combat_user;
+
+GRANT USAGE, SELECT
+ON ALL SEQUENCES IN SCHEMA public
+TO mock_combat_user;
 
 COMMIT TRANSACTION;

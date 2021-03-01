@@ -34,7 +34,7 @@ public class CombatController {
 		return players;
 	}
 	
-	@GetMapping(path = "/enemies")
+	@GetMapping("/enemies")
 	public List<Enemy> getAllEnemies() {
 		List<Enemy> enemies = combat.getAllEnemies();
 		

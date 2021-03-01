@@ -369,9 +369,9 @@ public class JDBCMockCombatDAO implements MockCombatDAO {
 	}
 
 	@Override
-	public String getDamageType(Integer damageType2Id) {
+	public String getDamageType(Integer damageTypeId) {
 		String sqlStmt = "SELECT description FROM damage_types WHERE damage_type_id = ?";
-		SqlRowSet result = jdbcTemplate.queryForRowSet(sqlStmt, damageType2Id);
+		SqlRowSet result = jdbcTemplate.queryForRowSet(sqlStmt, damageTypeId);
 		String output = "";
 		if (result.next()) {
 			output = result.getString("description");
