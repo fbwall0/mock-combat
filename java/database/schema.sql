@@ -76,7 +76,7 @@ CREATE TABLE players (
   health_regen int DEFAULT 0 NOT NULL,
   mana_regen int DEFAULT 0 NOT NULL,
   strength int DEFAULT 10 NOT NULL,
-  dexerity int DEFAULT 10 NOT NULL,
+  dexterity int DEFAULT 10 NOT NULL,
   constitution int DEFAULT 10 NOT NULL,
   magic int DEFAULT 10 NOT NULL,
   
@@ -117,6 +117,7 @@ CREATE TABLE attacks (
   die_size_2 int DEFAULT 0,
   bonus_damage_2 int DEFAULT 0,
   is_magic boolean DEFAULT false NOT NULL,
+  magic_bonus int DEFAULT 0 NOT NULL,
   experience_cost int,
   damage_type_id_1 int NOT NULL,
   damage_type_id_2 int DEFAULT NULL,
@@ -139,6 +140,7 @@ CREATE TABLE enemy_attacks (
   die_size_2 int DEFAULT 0,
   bonus_damage_2 int DEFAULT 0,
   is_magic boolean DEFAULT false NOT NULL,
+  magic_bonus int DEFAULT 0 NOT NULL,
   damage_type_id_1 int NOT NULL,
   damage_type_id_2 int DEFAULT NULL,
   
@@ -286,6 +288,10 @@ CREATE OR REPLACE FUNCTION update_spell() RETURNS TRIGGER AS '
         NEW.mana_cost = ((NEW.damage_dice_1 * NEW.die_size_1 + NEW.bonus_damage_1 + NEW.damage_dice_2 * NEW.die_size_2 + NEW.bonus_damage_2) / (NEW.action_cost * 2) :: int);
         NEW.experience_cost = ((NEW.damage_dice_1 * NEW.die_size_1 + NEW.bonus_damage_1 + NEW.damage_dice_2 * NEW.die_size_2 + NEW.bonus_damage_2) * 50 / NEW.action_cost :: int);
     END IF;
+    
+    IF (NEW.spell_type = 2) THEN
+        NEW.target_self = true;
+    END IF;
     RETURN NEW;
   END;
 ' LANGUAGE plpgsql;
@@ -299,6 +305,10 @@ CREATE OR REPLACE FUNCTION update_attack() RETURNS TRIGGER AS '
   BEGIN
     IF NEW.is_magic IS NULL THEN
         NEW.is_magic = false;
+    END IF;
+    
+    IF NEW.is_magic = false THEN
+        NEW.magic_bonus = 0;
     END IF;
    
     IF NEW.damage_dice_1 < 0 THEN
@@ -317,7 +327,7 @@ CREATE OR REPLACE FUNCTION update_attack() RETURNS TRIGGER AS '
     IF (NEW.has_second_damage = false) THEN
         NEW.experience_cost = ((NEW.damage_dice_1 * NEW.damage_dice_1 + NEW.bonus_damage_1) * 200 / NEW.action_cost :: int);
     ELSE
-        NEW.experience_cost = ((NEW.damage_dice_1 * NEW.die_size_1 + NEW.bonus_damage_1 + NEW.damage_dice_2 * NEW.die_size_2 + NEW.bonus_damage_2) * 200 / NEW.action_cost :: int);
+        NEW.experience_cost = ((NEW.damage_dice_1 * NEW.die_size_1 + NEW.bonus_damage_1 + NEW.damage_dice_2 * NEW.die_size_2 + NEW.bonus_damage_2 + NEW.magic_bonus) * 200 / NEW.action_cost :: int);
     END IF;
     RETURN NEW;
   END;
@@ -330,6 +340,10 @@ CREATE OR REPLACE FUNCTION update_enemy_attack() RETURNS TRIGGER AS '
   BEGIN
     IF NEW.is_magic IS NULL THEN
         NEW.is_magic = false;
+    END IF;
+    
+    IF NEW.is_magic = false THEN
+        NEW.magic_bonus = 0;
     END IF;
     
     IF NEW.damage_dice_1 < 0 THEN
@@ -355,9 +369,9 @@ CREATE TRIGGER update_enemy_attack BEFORE INSERT OR UPDATE ON enemy_attacks
     
 CREATE OR REPLACE FUNCTION new_player_default_abilities() RETURNS TRIGGER AS '
   BEGIN
-    INSERT INTO repertoire (repertoire.player_id, attack_id) 
+    INSERT INTO repertoire (player_id, attack_id) 
         VALUES (NEW.player_id, 1), (NEW.player_id, 2);
-    INSERT INTO grimoire (grimoire.player_id, spell_id) 
+    INSERT INTO grimoire (player_id, spell_id) 
         VALUES (NEW.player_id, 1), (NEW.player_id, 2);
     RETURN NULL;
   END;

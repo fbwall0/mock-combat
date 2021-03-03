@@ -16,6 +16,10 @@ public class Creature {
 	private int profBonus;
 	private List<Attack> attacks = new ArrayList<>();
 	private List<Spell> spells = new ArrayList<>();
+	
+	public Creature() {
+		
+	}
 
 	public Creature(String name, int xp, int hpMax, int baseAC, double actionPointsMax, int hpRegen, int profBonus,
 			List<Attack> attacks, List<Spell> spells) {

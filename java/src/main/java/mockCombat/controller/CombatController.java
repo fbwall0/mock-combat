@@ -27,11 +27,6 @@ public class CombatController {
 	@Autowired
 	MockCombatDAO combat;
 	
-	@GetMapping(path= "/")
-	public String test() {
-		return "Test";
-	}
-	
 	@GetMapping(path = "/players")
 	public List<PlayerCharacter> getAllPlayers() {
 		List<PlayerCharacter> players = combat.getPlayers();
@@ -130,6 +125,13 @@ public class CombatController {
 		return attacks;
 	}
 	
+	@PostMapping(path = "/player")
+	public PlayerCharacter createPlayer(@RequestBody String player) {
+		long playerId = combat.createPlayer(player);
+		
+		return combat.getPlayer(playerId);
+	}
+	
 	@PostMapping(path = "/enemy")
 	public Enemy createEnemy(@RequestBody Enemy newEnemy) {
 		Enemy enemy = combat.createEnemy(newEnemy);
@@ -196,12 +198,12 @@ public class CombatController {
 		return enemy;
 	}
 	
-	@PutMapping(path = "/player/{id}")
+	@PutMapping(path = "/player/{id}") //for leveling up
 	public void updatePlayer(@RequestBody PlayerCharacter updatedPlayer) {
 		combat.updatePlayer(updatedPlayer);
 	}
 	
-	@PutMapping(path = "/enemy/{id}")
+	@PutMapping(path = "/enemy/{id}") //for fixing mistakes in enemy creation
 	public Enemy updateEnemy(@RequestBody Enemy updatedEnemy) {
 		Enemy enemy = combat.updateEnemy(updatedEnemy);
 		

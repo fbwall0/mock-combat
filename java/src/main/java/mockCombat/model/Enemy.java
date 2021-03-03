@@ -10,6 +10,9 @@ public class Enemy extends Creature {
 	private List<Spell> spells;
 	private List<Attack> attacks;
 	
+	public Enemy() {
+		super();
+	}
 
 	public Enemy(long enemyId, String name, int xp, int hpMax, int baseAC, double actionPointsMax, int hpRegen, int profBonus, double challenge, String description,
 			List<Attack> attacks, List<Spell> spells) {

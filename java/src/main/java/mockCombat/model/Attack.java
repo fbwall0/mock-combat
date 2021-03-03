@@ -13,6 +13,7 @@ public class Attack extends Action {
 	private int bonusDamage2 = 0;
 	private boolean hasSecondDamage;
 	private boolean magic;
+	private int magicBonus;
 	
 	public boolean isMagic() {
 		return magic;
@@ -26,7 +27,7 @@ public class Attack extends Action {
 		
 	}
 	
-	public Attack(String name, long attackId, double actionCost, int xpCost, int damageType1, int damageDie1, int dieSize1, int bonusDamage1, int damageType2, int damageDie2, int dieSize2, int bonusDamage2, boolean magic) {
+	public Attack(String name, long attackId, double actionCost, int xpCost, int damageType1, int damageDie1, int dieSize1, int bonusDamage1, int damageType2, int damageDie2, int dieSize2, int bonusDamage2, boolean magic, int magicBonus) {
 		super(name, actionCost, xpCost);
 		this.attackId = attackId;
 		this.damageType1 = damageType1;
@@ -39,9 +40,10 @@ public class Attack extends Action {
 		this.bonusDamage2 = bonusDamage2;
 		hasSecondDamage = true;
 		this.magic = magic;
+		this.magicBonus = magicBonus;
 	}
 	
-	public Attack(String name, long attackId, double actionCost, int xpCost, int damageType1, int damageDie1, int dieSize1, int bonusDamage1, boolean magic) {
+	public Attack(String name, long attackId, double actionCost, int xpCost, int damageType1, int damageDie1, int dieSize1, int bonusDamage1, boolean magic, int magicBonus) {
 		super(name, actionCost, xpCost);
 		this.attackId = attackId;
 		this.damageType1 = damageType1;
@@ -50,9 +52,10 @@ public class Attack extends Action {
 		this.bonusDamage1 = bonusDamage1;
 		hasSecondDamage = false;
 		this.magic = magic;
+		this.magicBonus = magicBonus;
 	}
 	
-	public Attack(String name, long attackId, double actionCost, int damageType1, int damageDie1, int dieSize1, int bonusDamage1, int damageType2, int damageDie2, int dieSize2, int bonusDamage2, boolean magic) {
+	public Attack(String name, long attackId, double actionCost, int damageType1, int damageDie1, int dieSize1, int bonusDamage1, int damageType2, int damageDie2, int dieSize2, int bonusDamage2, boolean magic, int magicBonus) {
 		super(name, actionCost, 0);
 		this.attackId = attackId;
 		this.damageType1 = damageType1;
@@ -65,9 +68,10 @@ public class Attack extends Action {
 		this.bonusDamage2 = bonusDamage2;
 		hasSecondDamage = true;
 		this.magic = magic;
+		this.magicBonus = magicBonus;
 	}
 	
-	public Attack(String name, long attackId, double actionCost, int damageType1, int damageDie1, int dieSize1, int bonusDamage1, boolean magic) {
+	public Attack(String name, long attackId, double actionCost, int damageType1, int damageDie1, int dieSize1, int bonusDamage1, boolean magic, int magicBonus) {
 		super(name, actionCost, 0);
 		this.attackId = attackId;
 		this.damageType1 = damageType1;
@@ -76,6 +80,7 @@ public class Attack extends Action {
 		this.bonusDamage1 = bonusDamage1;
 		hasSecondDamage = false;
 		this.magic = magic;
+		this.magicBonus = magicBonus;
 	}
 
 	public int getDamageType1() {
@@ -156,6 +161,14 @@ public class Attack extends Action {
 
 	public void setAttackId(long attackId) {
 		this.attackId = attackId;
+	}
+
+	public int getMagicBonus() {
+		return magicBonus;
+	}
+
+	public void setMagicBonus(int magicBonus) {
+		this.magicBonus = magicBonus;
 	}
 	
 	

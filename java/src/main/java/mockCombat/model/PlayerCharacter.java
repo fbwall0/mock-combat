@@ -47,6 +47,10 @@ public class PlayerCharacter extends Creature {
 	public PlayerCharacter(String name) {
 		super(name, 300, 15, 10, 1.5, 1, 1);
 	}
+	
+	public PlayerCharacter() {
+		super();
+	}
 
 	public long getPlayerId() {
 		return playerId;
@@ -143,7 +147,7 @@ public class PlayerCharacter extends Creature {
 	}
 	
 	public double getMaxActionPoints() {
-		return this.getActionPointsMax() + ((double) ((this.getProfBonus() - 1) / 2) / 2);
+		return this.getActionPointsMax() + ((double) ((this.getProfBonus() - 1) / 2));
 	}
 	
 	public int getStrengthMod() {
