@@ -1,5 +1,6 @@
 package mockCombat.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import mockCombat.dao.MockCombatDAO;
+import mockCombat.model.Action;
 import mockCombat.model.Attack;
 import mockCombat.model.Enemy;
 import mockCombat.model.PlayerCharacter;
@@ -97,6 +99,16 @@ public class CombatController {
 		return attack;
 	}
 	
+	@GetMapping(path = "/player/{id}/learn")
+	public List<Action> getUnknownActions(@PathVariable long id) {
+		List<Action> actions = new ArrayList<>();
+		List<Spell> spells = combat.getUnknownSpells(id);
+		List<Attack> attacks = combat.getUnknownAttacks(id);
+		actions.addAll(spells);
+		actions.addAll(attacks);
+		return actions;
+	}
+	
 	@GetMapping(path = "/player/{id}/learn/spells")
 	public List<Spell> getUnknownSpells(@PathVariable long id) {
 		List<Spell> spells = combat.getUnknownSpells(id);
@@ -109,6 +121,16 @@ public class CombatController {
 		List<Attack> attacks = combat.getUnknownAttacks(id);
 		
 		return attacks;
+	}
+	
+	@GetMapping(path = "/enemy/{id}/learn")
+	public List<Action> getUnknownEnemyActions(@PathVariable long id) {
+		List<Action> actions = new ArrayList<>();
+		List<Spell> spells = combat.getUnknownEnemySpells(id);
+		List<Attack> attacks = combat.getUnknownEnemyAttacks(id);
+		actions.addAll(spells);
+		actions.addAll(attacks);
+		return actions;
 	}
 	
 	@GetMapping(path = "/enemy/{id}/learn/spells")
@@ -198,12 +220,12 @@ public class CombatController {
 		return enemy;
 	}
 	
-	@PutMapping(path = "/player/{id}") //for leveling up
+	@PutMapping(path = "/player") //for leveling up
 	public void updatePlayer(@RequestBody PlayerCharacter updatedPlayer) {
 		combat.updatePlayer(updatedPlayer);
 	}
 	
-	@PutMapping(path = "/enemy/{id}") //for fixing mistakes in enemy creation
+	@PutMapping(path = "/enemy") //for fixing mistakes in enemy creation
 	public Enemy updateEnemy(@RequestBody Enemy updatedEnemy) {
 		Enemy enemy = combat.updateEnemy(updatedEnemy);
 		
