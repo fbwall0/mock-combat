@@ -14,6 +14,9 @@ public class PlayerCharacter extends Creature {
 	private int spentXp = 0;
 	private int manaRegen = 1;
 	private String ancestry;
+	private int boost1; //primary stat boost
+	private int boost2; //secondary stat boost
+	
 	
 
 	public void setManaMax(int manaMax) {
@@ -21,7 +24,7 @@ public class PlayerCharacter extends Creature {
 	}
 
 	public PlayerCharacter(String name, long playerId, int xp, int hpMax, int manaMax, int baseAC, int hpRegen, int manaRegen,
-			int profBonus, int strength, int dexterity, int constitution, int magic, int spentXp, List<Attack> attacks, List<Spell> spells) {
+			int profBonus, int strength, int dexterity, int constitution, int magic, int spentXp, int boost1, int boost2, List<Attack> attacks, List<Spell> spells) {
 		super(name, xp, hpMax, baseAC, 1.5, hpRegen, profBonus, attacks, spells);
 		this.playerId = playerId;
 		this.strength = strength;
@@ -30,10 +33,12 @@ public class PlayerCharacter extends Creature {
 		this.magic = magic;
 		this.spentXp = spentXp;
 		this.manaRegen = manaRegen;
+		this.boost1 = boost1;
+		this.boost2 = boost2;
 	}
 
 	public PlayerCharacter(String name, long playerId, int xp, int hpMax,  int manaMax, int baseAC, int hpRegen, int manaRegen,
-			int profBonus, int strength, int dexterity, int constitution, int magic, int spentXp) {
+			int profBonus, int strength, int dexterity, int constitution, int magic, int spentXp, int boost1, int boost2) {
 		super(name, xp, hpMax, baseAC, 1.5, hpRegen, profBonus);
 		this.playerId = playerId;
 		this.strength = strength;
@@ -42,6 +47,8 @@ public class PlayerCharacter extends Creature {
 		this.magic = magic;
 		this.spentXp = spentXp;
 		this.manaRegen = manaRegen;
+		this.boost1 = boost1;
+		this.boost2 = boost2;
 	}
 	
 	public PlayerCharacter(String name) {
@@ -187,6 +194,22 @@ public class PlayerCharacter extends Creature {
 
 	public int getManaMax() {
 		return manaMax;
+	}
+
+	public int getBoost1() {
+		return boost1;
+	}
+
+	public void setBoost1(int boost1) {
+		this.boost1 = boost1;
+	}
+
+	public int getBoost2() {
+		return boost2;
+	}
+
+	public void setBoost2(int boost2) {
+		this.boost2 = boost2;
 	}
 	
 	

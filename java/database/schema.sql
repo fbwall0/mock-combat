@@ -79,6 +79,8 @@ CREATE TABLE players (
   dexterity int DEFAULT 10 NOT NULL,
   constitution int DEFAULT 10 NOT NULL,
   magic int DEFAULT 10 NOT NULL,
+  boost1 int DEFAULT 1 NOT NULL,
+  boost2 int DEFAULT 2 NOT NULL,
   
   CONSTRAINT PK_player_id PRIMARY KEY (player_id)
 );

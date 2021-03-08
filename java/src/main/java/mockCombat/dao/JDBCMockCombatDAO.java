@@ -281,8 +281,8 @@ public class JDBCMockCombatDAO implements MockCombatDAO {
 
 	@Override
 	public void updatePlayer(PlayerCharacter updatedPlayer) {
-		String sqlStmt = "UPDATE players SET player_name = ?, experience = ?, spent_experience = ?, proficiency_bonus = ?, base_health = ?, base_mana = ?, base_armor = ?, health_regen = ?, mana_regen = ?, strength = ?, dexterity = ?, constitution = ?, magic = ? WHERE player_id = ?";
-		jdbcTemplate.update(sqlStmt, updatedPlayer.getName(), updatedPlayer.getXp(), updatedPlayer.getSpentXp(), updatedPlayer.getProfBonus(), updatedPlayer.getHpMax(), updatedPlayer.getManaMax(), updatedPlayer.getBaseAC(), updatedPlayer.getHpRegen(), updatedPlayer.getManaRegen(), updatedPlayer.getStrength(), updatedPlayer.getDexterity(), updatedPlayer.getConstitution(), updatedPlayer.getMagic(), updatedPlayer.getPlayerId());
+		String sqlStmt = "UPDATE players SET player_name = ?, experience = ?, spent_experience = ?, proficiency_bonus = ?, base_health = ?, base_mana = ?, base_armor = ?, health_regen = ?, mana_regen = ?, strength = ?, dexterity = ?, constitution = ?, magic = ?, boost1 = ?, boost2 = ? WHERE player_id = ?";
+		jdbcTemplate.update(sqlStmt, updatedPlayer.getName(), updatedPlayer.getXp(), updatedPlayer.getSpentXp(), updatedPlayer.getProfBonus(), updatedPlayer.getHpMax(), updatedPlayer.getManaMax(), updatedPlayer.getBaseAC(), updatedPlayer.getHpRegen(), updatedPlayer.getManaRegen(), updatedPlayer.getStrength(), updatedPlayer.getDexterity(), updatedPlayer.getConstitution(), updatedPlayer.getMagic(), updatedPlayer.getBoost1(), updatedPlayer.getBoost2(), updatedPlayer.getPlayerId());
 	}
 
 	@Override
@@ -318,8 +318,10 @@ public class JDBCMockCombatDAO implements MockCombatDAO {
 		int constitution = results.getInt("constitution");
 		int magic = results.getInt("magic");
 		int spentXp = results.getInt("spent_experience");
+		int boost1 = results.getInt("boost1");
+		int boost2 = results.getInt("boost2");
 		PlayerCharacter player = new PlayerCharacter(name, playerId, experience, hpMax,  manaMax, baseAC, hpRegen, manaRegen,
-			 profBonus, strength, dexterity, constitution, magic, spentXp);
+			 profBonus, strength, dexterity, constitution, magic, spentXp, boost1, boost2);
 		List<Attack> attacks = getPlayerAttacks(playerId);
 		List<Spell> spells = getPlayerSpells(playerId);
 		for (Attack attack : attacks) {
