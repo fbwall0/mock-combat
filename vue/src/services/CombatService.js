@@ -4,8 +4,8 @@ const http = axios.create({
     baseURL: 'http://localhost:8080/api'
 });
 
-
 export default {
+    damageTypes: ['Bludgeoning', 'Piercing', 'Slashing', 'Radiant', 'Necrotic', 'Fire', 'Cold', 'Lightning', 'Thunder', 'Force', 'Psychic', 'Poison', 'Acid'],
 
     getAllPlayers() {
         return http.get('/players');
@@ -140,6 +140,7 @@ export default {
     },
 
     getDamageType(id) {
-        return http.get(`/damageType/${id}`);
+        return this.damageTypes[id - 1];
+        //return http.get(`/damageType/${id}`);
     }
 }

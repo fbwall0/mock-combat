@@ -401,7 +401,7 @@ INSERT INTO attacks (name, action_cost, damage_dice_1, die_size_1, bonus_damage_
   VALUES ('Punch', 0.5, 1, 4, 0, 1), ('Kick', 1, 1, 8, 0, 1);
   
 INSERT INTO enemy_attacks (name, action_cost, damage_dice_1, die_size_1, bonus_damage_1, damage_type_id_1)
-  VALUES ('Claw', 0.5, 1, 4, 1, 3), ('Bite', 1, 1, 6, 2, 2), ('Spear', 1, 1, 8, 1, 2), ('Dagger', 0.5, 1, 4, 2, 2), ('Sword', 1, 1, 8, 1, 3), ('Sucker Punch', 1.5, 2, 46, 1, 1);
+  VALUES ('Claw', 0.5, 1, 4, 1, 3), ('Bite', 1, 1, 6, 2, 2), ('Spear', 1, 1, 8, 1, 2), ('Dagger', 0.5, 1, 4, 2, 2), ('Sword', 1, 1, 8, 1, 3), ('Sucker Punch', 1.5, 2, 6, 1, 1);
   
 --Insert enemies
 INSERT INTO enemies (enemy_name, max_health, armor, hit_bonus, max_action_points, description)
