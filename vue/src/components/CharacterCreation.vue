@@ -21,7 +21,6 @@
                   <option value=2 v-show="boost1 != 2">Dexterity</option>
                   <option value=3 v-show="boost1 != 3">Constitution</option>
                   <option value=4 v-show="boost1 != 4">Magic</option>
-                  <option value=5 v-show="boost1 != 5">Proficiency</option>
                   <option value=6 v-show="boost1 != 6">Health</option>
                   <option value=7 v-show="boost1 != 7">Mana</option>
                 </select>
@@ -107,7 +106,7 @@ export default {
             } else if (this.boost1 == 4) {
                 this.boostedPlayer.magic = 14;
             } else if (this.boost1 == 5) {
-                this.boostedPlayer.profBonus = 3;
+                this.boostedPlayer.profBonus = 2;
             } else if (this.boost1 == 6) {
                 this.boostedPlayer.hpMax = 25;
             } else if (this.boost1 == 7) {
@@ -122,8 +121,6 @@ export default {
                 this.boostedPlayer.constitution = 12;
             } else if (this.boost2 == 4) {
                 this.boostedPlayer.magic = 12;
-            } else if (this.boost2 == 5) {
-                this.boostedPlayer.profBonus = 2;
             } else if (this.boost2 == 6) {
                 this.boostedPlayer.hpMax = 20;
             } else if (this.boost2 == 7) {

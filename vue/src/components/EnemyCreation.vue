@@ -39,7 +39,7 @@
                         </td>
                         <td>{{ spell.name }}</td>
                         <td>{{ spell.actionCost }}</td>
-                        <td>{{ spell.damageDie1 }}d{{ spell.dieSize1 }}<span v-if="spell.damageDie2 * spell.dieSize2 > 0"> + {{ spell.damageDie2 }}d{{ spell.dieSize2 }} </span><span v-if="spell.bonusDamage1 + spell.bonusDamage2 != 0"> + {{ spell.bonusDamage1 + spell.bonusDamage2 }}</span></td>
+                        <td>{{ spell.damageDie1 }}d{{ spell.dieSize1 }} <span v-if="spell.bonusDamage1 != 0">+ {{ spell.bonusDamage1 }} </span>{{ getDamageType(spell.damageType1) }} <span v-if="spell.damageDie2 * spell.dieSize2 > 0">+ {{ spell.damageDie2 }}d{{ spell.dieSize2 }} {{ getDamageType(spell.damageType2) }} </span><span v-if="spell.bonusDamage2 != 0">+ {{ spell.bonusDamage2 }}</span> {{ getDamageType(spell.damageType2) }}</td>
                         <td>{{ getSpellType(spell.spellType) }}</td>
                     </tr>
                 </tbody>
@@ -63,7 +63,7 @@
                         </td>
                         <td>{{ attack.name }}</td>
                         <td>{{ attack.actionCost }}</td>
-                        <td>{{ attack.damageDie1 }}d{{ attack.dieSize1 }}<span v-if="attack.damageDie2 * attack.dieSize2 > 0"> + {{ attack.damageDie2 }}d{{ attach.dieSize2 }} </span><span v-if="attack.bonusDamage1 + attack.bonusDamage2 != 0"> + {{ attack.bonusDamage1 + attack.bonusDamage2}}</span></td>
+                        <td>{{ attack.damageDie1 }}d{{ attack.dieSize1 }} <span v-if="attack.bonusDamage1 != 0">+ {{ attack.bonusDamage1 }} </span>{{ getDamageType(attack.damageType1) }} <span v-if="attack.damageDie2 * attack.dieSize2 > 0"> + {{ attack.damageDie2 }}d{{ attach.dieSize2 }} {{ getDamageType(attack.damageType1) }} </span><span v-if="attack.bonusDamage2 != 0"> + {{ attack.bonusDamage2}}  {{ getDamageType(attack.damageType2) }}</span></td>
                         <td><span v-if="attack.magic">{{ attack.magicBonus }}</span></td>
                     </tr>
                 </tbody>
@@ -71,7 +71,7 @@
             <button id="enemy-completion-button" v-on:click="addActions">Finish Adding Actions</button>
       </div>
       <div id="enemy-review-section" v-if="actionsAdded && enemyCreated">
-          <p>The {{enemy.name }} you have created has an approximate Challenge Rating of {{ calcEnemy.challenge }}  with a experience reward of {{ calcEnemy.experience }}</p>
+          <p>The {{enemy.name }} you have created has an approximate Challenge Rating of {{ calcEnemy.challenge }}  with an experience reward of {{ calcEnemy.experience }}</p>
           <button v-on:click="createEnemy">Confirm Enemy Creation</button>
           <button v-on:click="remakeEnemy">Start Over</button>
       </div>
@@ -83,11 +83,11 @@ import combatService from "@/services/CombatService";
 export default {
     data() {
         return {
+            damageTypes: ['Bludgeoning', 'Piercing', 'Slashing', 'Radiant', 'Necrotic', 'Fire', 'Cold', 'Lightning', 'Thunder', 'Force', 'Psychic', 'Poison', 'Acid'],
             enemyCreated: false,
             actionsAdded: false,
             allAttacks: [],
             allSpells: [],
-            damageType: '',
             enemy: {
                 enemyId: 0,
                 name: 'goblin',
@@ -131,15 +131,14 @@ export default {
         },
         createEnemy() {
             combatService.createEnemy(this.enemy).then((response) => {
-                this.enemy = response.data;
+                this.enemy.enemyId = response.data.enemyId;
                 combatService.updateEnemy(this.enemy);
             })
         },
         getDamageType(id) {
             console.log(id);
-            this.damagetype = combatService.getDamageType(id);
-            console.log(this.damagetype);
-            return this.damagetype;
+            console.log(this.damageTypes[id - 1]);
+            return this.damageTypes[id - 1];
         },
         getSpellType(id) {
             if (id == 1) {
