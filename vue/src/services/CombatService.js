@@ -71,8 +71,8 @@ export default {
         return http.get(`/enemy/${enemyId}/learn/attacks`);
     },
 
-    createPlayer(playerName) {
-        return http.post('/player', playerName);
+    createPlayer() {
+        return http.post('/player');
     },
 
     createEnemy(enemy) {

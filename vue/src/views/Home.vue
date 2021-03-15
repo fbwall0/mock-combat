@@ -11,6 +11,16 @@
     <br />
     <p>Spell Creation Demo</p>
     <spell-creation />
+    <br />
+    <br />
+    <p>Attack Creation Demo</p>
+    <attack-creation />
+    <br />
+    <br />
+    <p>Character Selection</p>
+    <select-character />
+    <br />
+    <br />
   </div>
 </template>
 
@@ -19,13 +29,17 @@
 import CharacterCreation from '../components/CharacterCreation.vue'
 import EnemyCreation from '../components/EnemyCreation.vue'
 import SpellCreation from '../components/SpellCreation.vue'
+import AttackCreation from '../components/AttackCreation.vue'
+import SelectCharacter from '../components/SelectCharacter.vue'
 
 export default {
   name: 'Home',
   components: {
     CharacterCreation,
     EnemyCreation,
-    SpellCreation
+    SpellCreation,
+    AttackCreation,
+    SelectCharacter
   }
 }
 </script>

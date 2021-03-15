@@ -11,6 +11,9 @@ public interface MockCombatDAO {
 	
 	long createPlayer(String name);
 	
+	long createPlayer2();
+
+
 	List<PlayerCharacter> getPlayers();
 	
 	List<Spell> getAllSpells();

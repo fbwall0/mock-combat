@@ -90,7 +90,7 @@ export default {
             allSpells: [],
             enemy: {
                 enemyId: 0,
-                name: 'goblin',
+                name: 'Goblin',
                 description: 'A green humanoid',
                 experience: Number,
                 challenge: Number,
@@ -131,8 +131,8 @@ export default {
         },
         createEnemy() {
             combatService.createEnemy(this.enemy).then((response) => {
-                this.enemy.enemyId = response.data.enemyId;
-                combatService.updateEnemy(this.enemy);
+                this.calcEnemy.enemyId = response.data.enemyId;
+                combatService.updateEnemy(this.calcEnemy);
             })
         },
         getDamageType(id) {
@@ -154,7 +154,7 @@ export default {
             this.actionsAdded = false;
             this.enemy = {
                 enemyId: 0,
-                name: 'goblin',
+                name: 'Goblin',
                 description: 'A green humanoid',
                 experience: Number,
                 challenge: Number,

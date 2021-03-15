@@ -27,6 +27,13 @@ public class JDBCMockCombatDAO implements MockCombatDAO {
 		long output = jdbcTemplate.queryForObject(sqlStmt, long.class, new Object[] {name});
 		return output;
 	}
+	
+	
+	public long createPlayer2() {
+		String sqlStmt = "INSERT INTO players (player_name) VALUES ('') RETURNING player_id";
+		long output = jdbcTemplate.queryForObject(sqlStmt, long.class, new Object[] {});
+		return output;
+	}
 
 	@Override
 	public List<PlayerCharacter> getPlayers() {

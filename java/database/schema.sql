@@ -268,7 +268,7 @@ CREATE TRIGGER update_created_enemy BEFORE INSERT OR UPDATE ON enemies
 CREATE OR REPLACE FUNCTION update_spell() RETURNS TRIGGER AS '
   BEGIN
     IF NEW.spell_type IS NULL OR NEW.spell_type < 1 OR NEW.spell_type > 3 THEN
-      NEW.spell_type = 1;
+        NEW.spell_type = 1;
     END IF;
     IF NEW.damage_dice_1 < 0 THEN
         NEW.damage_dice_1 = 0;
@@ -282,13 +282,12 @@ CREATE OR REPLACE FUNCTION update_spell() RETURNS TRIGGER AS '
     ELSE
         NEW.has_second_damage = true;
     END IF;
-    
     IF (NEW.has_second_damage = false) THEN
-        NEW.mana_cost = ((NEW.damage_dice_1 * NEW.die_size_1 + NEW.bonus_damage_1) / (NEW.action_cost * 2) :: int);
-        NEW.experience_cost = ((NEW.damage_dice_1 * NEW.die_size_1 + NEW.bonus_damage_1) * 50 / NEW.action_cost :: int);
+        NEW.mana_cost = ((NEW.damage_dice_1 * NEW.die_size_1 + NEW.bonus_damage_1 * ABS(NEW.bonus_damage_1) / 2) / (NEW.action_cost * 2) :: int);
+        NEW.experience_cost = (((NEW.damage_dice_1 * NEW.die_size_1 + NEW.bonus_damage_1) * 50 / NEW.action_cost) :: int);
     ELSE
-        NEW.mana_cost = ((NEW.damage_dice_1 * NEW.die_size_1 + NEW.bonus_damage_1 + NEW.damage_dice_2 * NEW.die_size_2 + NEW.bonus_damage_2) / (NEW.action_cost * 2) :: int);
-        NEW.experience_cost = ((NEW.damage_dice_1 * NEW.die_size_1 + NEW.bonus_damage_1 + NEW.damage_dice_2 * NEW.die_size_2 + NEW.bonus_damage_2) * 50 / NEW.action_cost :: int);
+        NEW.mana_cost = ((NEW.damage_dice_1 * NEW.die_size_1 + NEW.bonus_damage_1 * ABS(NEW.bonus_damage_1) / 2 + NEW.damage_dice_2 * NEW.die_size_2 + NEW.bonus_damage_2 * ABS(NEW.bonus_damage_2) / 2) / (NEW.action_cost * 2) :: int);
+        NEW.experience_cost = (((NEW.damage_dice_1 * NEW.die_size_1 + NEW.bonus_damage_1 + NEW.damage_dice_2 * NEW.die_size_2 + NEW.bonus_damage_2) * 50 / NEW.action_cost) :: int);
     END IF;
     
     IF (NEW.spell_type = 2) THEN
@@ -325,11 +324,10 @@ CREATE OR REPLACE FUNCTION update_attack() RETURNS TRIGGER AS '
     ELSE
         NEW.has_second_damage = true;
     END IF;
-    
     IF (NEW.has_second_damage = false) THEN
-        NEW.experience_cost = ((NEW.damage_dice_1 * NEW.damage_dice_1 + NEW.bonus_damage_1) * 200 / NEW.action_cost :: int);
+        NEW.experience_cost = (((NEW.damage_dice_1 * NEW.die_size_1 + NEW.bonus_damage_1 * ABS(NEW.bonus_damage_1) / 2 + NEW.magic_bonus ^ 3) * 50 / NEW.action_cost) :: int);
     ELSE
-        NEW.experience_cost = ((NEW.damage_dice_1 * NEW.die_size_1 + NEW.bonus_damage_1 + NEW.damage_dice_2 * NEW.die_size_2 + NEW.bonus_damage_2 + NEW.magic_bonus) * 200 / NEW.action_cost :: int);
+        NEW.experience_cost = (((NEW.damage_dice_1 * NEW.die_size_1 + NEW.bonus_damage_1 * ABS(NEW.bonus_damage_1) / 2 + NEW.magic_bonus ^ 3 + NEW.damage_dice_2 * NEW.die_size_2 + NEW.bonus_damage_2 * ABS(NEW.bonus_damage_2) / 2) * 50 / NEW.action_cost) :: int);
     END IF;
     RETURN NEW;
   END;

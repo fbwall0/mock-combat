@@ -57,7 +57,7 @@ export default {
             player: {
                 playerId: 0,
                 name: '',
-                experience: 300,
+                xp: 300,
                 hpMax: 15,
                 manaMax: 15,
                 baseAC: 10,
@@ -75,7 +75,7 @@ export default {
             boostedPlayer: {
                 playerId: 0,
                 name: '',
-                experience: 300,
+                xp: 300,
                 hpMax: 15,
                 manaMax: 15,
                 baseAC: 10,
@@ -129,12 +129,16 @@ export default {
             this.characterCreated = true;
         },
         createCharacter() {
-            combatService.createPlayer(this.name).then((response) => {
-                this.player = response.data;
+            combatService.createPlayer().then((response) => {
+                this.boostedPlayer.playerId = response.data.playerId;
                 combatService.updatePlayer(this.boostedPlayer);
             })
         },
         remakeCharacter() {
+            this.player.name = '';
+            this.boostedPlayer = this.player;
+            this.boost1 = 0;
+            this.boost2 = 0;
             this.characterCreated = false;
         }
     }

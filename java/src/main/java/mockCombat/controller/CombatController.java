@@ -147,9 +147,16 @@ public class CombatController {
 		return attacks;
 	}
 	
+//	@PostMapping(path = "/player")
+//	public PlayerCharacter createPlayer(@RequestBody String player) {
+//		long playerId = combat.createPlayer(player);
+//		
+//		return combat.getPlayer(playerId);
+//	}
+	
 	@PostMapping(path = "/player")
-	public PlayerCharacter createPlayer(@RequestBody String player) {
-		long playerId = combat.createPlayer(player);
+	public PlayerCharacter createPlayer() {
+		long playerId = combat.createPlayer2();
 		
 		return combat.getPlayer(playerId);
 	}

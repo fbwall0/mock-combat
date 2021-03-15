@@ -1,10 +1,16 @@
 <template>
   <div id="main">
-      <div class="spell-creation-section" v-if="!spellCreated">
+      <div class="spell-creation-section">
           <form v-on:submit.prevent="spellCreation">
               Spell Name: <input id="spell-name" required v-model="spell.name" />
               <br />
               Action Cost: <input id="spell-action-cost" required v-model="spell.actionCost" type="number" min=0.5 step=0.5 />
+              <br />
+              Spell Type: <select id="spell-type" required v-model="spell.spellType" >
+                  <option value=1>Damage</option>
+                  <option value=2>Healing</option>
+                  <!-- <option value=3>Utility</option> -->
+              </select>
               <br />
               Number of Damage Dice 1: <input id="spell-damage-dice-1" v-model="spell.damageDie1" type="number" min=0 />
               <br />
@@ -70,19 +76,43 @@
               <br />
               Estimated Experience Cost: {{ experienceCostCalc }}
               <br />
-            <button id="spell-creation-button">Create Spell</button>
+            <button id="spell-creation-button" v-if="spell.name.length > 0">Create Spell</button>
           </form>
       </div>
   </div>
 </template>
 
 <script>
+import combatService from "@/services/CombatService";
 export default {
     data() {
         return {
-            spellCreated: false,
 
             spell: {
+                name: '',
+                actionCost: .5,
+                damageType1: 1,
+                damageType2: 1,
+                damageDie1: 1,
+                dieSize1: 4,
+                bonusDamage1: 0,
+                hasSecondDamage: false,
+                damageDie2: 1,
+                dieSize2: 4,
+                bonusDamage2: 0,
+                spellType: 1,
+                manaCost: Number,
+                targetSelf: false,
+                xpCost: Number,
+            }
+        }
+    },
+    methods: {
+        spellCreation() {
+            this.spell.manaCost = this.manaCostCalc;
+            this.spell.xpCost = this.experienceCostCalc;
+            combatService.createSpell(this.spell);
+            this.spell = {
                 name: '',
                 actionCost: .5,
                 damageType1: 1,
@@ -116,7 +146,7 @@ export default {
                 let totalDamage = Number(damage1 + damage2);
                 return Number(totalDamage * 50) / Number(this.spell.actionCost);
             } else {
-                return (this.spell.damageDie1 * this.spell.dieSize1 + Number(this.spell.bonusDamage1)) * 50 / (this.spell.actionCost);
+                return ((this.spell.damageDie1 * this.spell.dieSize1 + Number(this.spell.bonusDamage1)) * 50 / (this.spell.actionCost));
             }
         }
     }
