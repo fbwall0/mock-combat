@@ -1,26 +1,28 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <p>Character Creation Demo</p>
-    <character-creation/>
-    <br />
-    <br />
-    <p>Enemy Creation Demo</p>
-    <enemy-creation />
-    <br />
-    <br />
-    <p>Spell Creation Demo</p>
-    <spell-creation />
-    <br />
-    <br />
-    <p>Attack Creation Demo</p>
-    <attack-creation />
-    <br />
-    <br />
-    <p>Character Selection</p>
-    <select-character />
-    <br />
-    <br />
+  <div id="main">
+    <div class="home">
+      <img alt="Vue logo" src="../assets/logo.png">
+      <p>Character Creation Demo</p>
+      <character-creation/>
+      <br />
+      <br />
+      <p>Enemy Creation Demo</p>
+      <enemy-creation />
+      <br />
+      <br />
+      <p>Spell Creation Demo</p>
+      <spell-creation />
+      <br />
+      <br />
+      <p>Attack Creation Demo</p>
+      <attack-creation />
+      <br />
+      <br />
+      <p>Character Selection</p>
+      <select-character />
+      <br />
+      <br />
+    </div>
   </div>
 </template>
 

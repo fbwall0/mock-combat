@@ -17,6 +17,7 @@
               <p>Max Mana: {{ characterSelected.manaMax + (characterSelected.magic - 10) * 5 + (characterSelected.profBonus * 5) }}</p>
               <p>Armor: {{ characterSelected.baseAC + (characterSelected.dexterity - 10) / 2 + (characterSelected.profBonus) }}</p>
               <p>Proficiency Bonus: {{ characterSelected.profBonus }}</p>
+              <p>Action Points: {{ 1.5 + Number(Math.round((characterSelected.profBonus - 1) / 2)) / 2 }}</p>
               <p>Strength: {{ characterSelected.strength }}</p>
               <p>Dexterity: {{ characterSelected.dexterity }}</p>
               <p>Constitution: {{ characterSelected.constitution }}</p>

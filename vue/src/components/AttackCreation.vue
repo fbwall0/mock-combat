@@ -129,7 +129,7 @@ export default {
                 let damage2 = Number(this.attack.damageDie2 * this.attack.dieSize2 + Number(this.attack.bonusDamage2) * Math.abs(this.attack.bonusDamage2) / 2);
                 let magicBonus = Number(this.attack.isMagic ? this.attack.magicBonus : 0) * this.attack.magicBonus * this.attack.magicBonus;
                 let totalDamage = Number(Number(damage1) + Number(damage2) + Number(magicBonus));
-                return Number(totalDamage * 50) / Number(this.attack.actionCost);
+                return Math.round(Number(totalDamage * 50) / Number(this.attack.actionCost));
             } else {
                 return (this.attack.damageDie1 * this.attack.dieSize1 + Number(this.attack.bonusDamage1) * Math.abs(this.attack.bonusDamage1) / 2 + (Number(this.attack.isMagic ? this.attack.magicBonus : 0) * this.attack.magicBonus * this.attack.magicBonus)) * 50 / (this.attack.actionCost);
             }

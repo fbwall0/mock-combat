@@ -134,9 +134,9 @@ export default {
     computed: {
         manaCostCalc() {
             if (this.spell.hasSecondDamage) {
-                return (Number(this.spell.damageDie1 * this.spell.dieSize1 + Number(this.spell.bonusDamage1) * Math.abs(this.spell.bonusDamage1) / 2) + Number(this.spell.damageDie2 * this.spell.dieSize2 + Number(this.spell.bonusDamage2) * Math.abs(this.spell.bonusDamage2) / 2)) / (this.spell.actionCost * 2);
+                return Math.round((Number(this.spell.damageDie1 * this.spell.dieSize1 + Number(this.spell.bonusDamage1) * Math.abs(this.spell.bonusDamage1) / 2) + Number(this.spell.damageDie2 * this.spell.dieSize2 + Number(this.spell.bonusDamage2) * Math.abs(this.spell.bonusDamage2) / 2)) / (this.spell.actionCost * 2));
             } else {
-                return (this.spell.damageDie1 * this.spell.dieSize1 + Number(this.spell.bonusDamage1) * Math.abs(this.spell.bonusDamage1) / 2) / (this.spell.actionCost * 2);
+                return Math.round((this.spell.damageDie1 * this.spell.dieSize1 + Number(this.spell.bonusDamage1) * Math.abs(this.spell.bonusDamage1) / 2) / (this.spell.actionCost * 2));
             }
         },
         experienceCostCalc() {
@@ -144,9 +144,9 @@ export default {
                 let damage1 = Number(this.spell.damageDie1 * this.spell.dieSize1 + Number(this.spell.bonusDamage1));
                 let damage2 = Number(this.spell.damageDie2 * this.spell.dieSize2 + Number(this.spell.bonusDamage2));
                 let totalDamage = Number(damage1 + damage2);
-                return Number(totalDamage * 50) / Number(this.spell.actionCost);
+                return Math.round(Number(totalDamage * 50) / Number(this.spell.actionCost));
             } else {
-                return ((this.spell.damageDie1 * this.spell.dieSize1 + Number(this.spell.bonusDamage1)) * 50 / (this.spell.actionCost));
+                return Math.round((this.spell.damageDie1 * this.spell.dieSize1 + Number(this.spell.bonusDamage1)) * 50 / (this.spell.actionCost));
             }
         }
     }
