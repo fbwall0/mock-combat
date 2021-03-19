@@ -18,8 +18,36 @@
         </div>
         <br />
         <div id="stat-boosts">
-            <p>Available Experience: {{ $store.futureCharacter.xp }}</p>
-
+            <p>Available Experience: {{ futureCharacter.xp }}</p>
+            <br />
+            <div v-if="profIncreaseCost <= futureCharacter.xp">
+                <button v-on:click="profIncrease">Increase Proficiency</button> Cost: {{ profIncreaseCost }}
+            </div>
+            <br />
+            <div v-if="strIncreaseCost <= futureCharacter.xp">
+                <button v-on:click="strIncrease">Increase Strength</button> Cost: {{ strIncreaseCost }}
+            </div>
+            <br />
+            <div v-if="dexIncreaseCost <= futureCharacter.xp">
+                <button v-on:click="dexIncrease">Increase Dexterity</button> Cost: {{ dexIncreaseCost }}
+            </div>
+            <br />
+            <div v-if="conIncreaseCost <= futureCharacter.xp">
+                <button v-on:click="conIncrease">Increase Constitution</button> Cost: {{ conIncreaseCost }}
+            </div>
+            <br />
+            <div v-if="magIncreaseCost <= futureCharacter.xp">
+                <button v-on:click="magIncrease">Increase Magic</button> Cost: {{ magIncreaseCost }}
+            </div>
+            <br />
+            <div v-if="hpRegenIncreaseCost <= futureCharacter.xp">
+                <button v-on:click="hpRegenIncrease">Increase Health Regeneration</button> Cost: {{ hpRegenIncreaseCost }}
+            </div>
+            <br />
+            <div v-if="manaRegenIncreaseCost <= futureCharacter.xp">
+                <button v-on:click="manaRegenIncrease">Increase Mana Regeneration</button> Cost: {{ manaRegenIncreaseCost }}
+            </div>
+            <br />
         </div>
         <br />
         <div id="future-character">
@@ -60,6 +88,38 @@ export default {
     methods: {
         resetFutureCharacter() {
             this.futureCharacter = this.$store.currentPlayer;
+        },
+        profIncrease() {
+            this.spendXp(this.profIncreaseCost());
+            this.futureCharacter.profBonus = this.futureCharacter.profBonus + 1;
+        },
+        strIncrease() {
+            this.spendXp(this.strIncreaseCost());
+            this.futureCharacter.strength = this.futureCharacter.strength + 1;
+        },
+        dexIncrease() {
+            this.spendXp(this.dexIncreaseCost());
+            this.futureCharacter.dexterity = this.futureCharacter.dexterity + 1;
+        },
+        conIncrease() {
+            this.spendXp(this.conIncreaseCost());
+            this.futureCharacter.constitution = this.futureCharacter.constitution + 1;
+        },
+        magIncrease() {
+            this.spendXp(this.magfIncreaseCost());
+            this.futureCharacter.magic = this.futureCharacter.magic + 1;
+        },
+        hpRegenIncrease() {
+            this.spendXp(this.hpRegenIncreaseCost());
+            this.futureCharacter.hpRegen = this.futureCharacter.hpRegen + 1;
+        },
+        manaRegenIncrease() {
+            this.spendXp(this.manaRegenIncreaseCost());
+            this.futureCharacter.manaRegen = this.futureCharacter.manaRegen + 1;
+        },
+        spendXp(experience) {
+            this.futureCharacter.xp = this.futureCharacter.xp - experience;
+            this.futureCharacter.spentXp = this.futureCharacter.spentXp + experience;
         }
     },
     created() {
@@ -72,6 +132,31 @@ export default {
             this.unknownAttacks = response.data;
             this.attacksLoaded = true;
         });
+        //for testing
+        this.futureCharacter.xp = 10000;
+    },
+    computed: {
+        profIncreaseCost() {
+            return (this.futureCharacter.profBonus - (this.$store.currentPlayer.bonus1 == 5 ? 1 : 0)) * 300;
+        },
+        strIncreaseCost() {
+            return (this.futureCharacter.strength - 10 - (this.$store.currentPlayer.bonus1 == 1 ? 4 : 0) - (this.$store.currentPlayer.bonus2 == 1 ? 2 : 0)) * 200;
+        },
+        dexIncreaseCost() {
+            return (this.futureCharacter.dexterity - 10 - (this.$store.currentPlayer.bonus1 == 2 ? 4 : 0) - (this.$store.currentPlayer.bonus2 == 2 ? 2 : 0)) * 200;
+        },
+        conIncreaseCost() {
+            return (this.futureCharacter.constitution - 10 - (this.$store.currentPlayer.bonus1 == 3 ? 4 : 0) - (this.$store.currentPlayer.bonus2 == 3 ? 2 : 0)) * 200;
+        },
+        magIncreaseCost() {
+            return (this.futureCharacter.magic - 10 - (this.$store.currentPlayer.bonus1 == 4 ? 4 : 0) - (this.$store.currentPlayer.bonus2 == 4 ? 2 : 0)) * 200;
+        },
+        hpRegenIncreaseCost() {
+            return (this.futureCharacter.hpRegen + 1) ^ 2 * 500;
+        },
+        manaRegenIncreaseCost() {
+            return (this.futureCharacter.manaRegen + 1) ^ 2 * 500;
+        },
     }
 }
 </script>

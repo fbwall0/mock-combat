@@ -22,6 +22,10 @@
       <select-character />
       <br />
       <br />
+      <p>Character Level Up</p>
+      <level-up />
+      <br />
+      <br />
     </div>
   </div>
 </template>
@@ -33,6 +37,7 @@ import EnemyCreation from '../components/EnemyCreation.vue'
 import SpellCreation from '../components/SpellCreation.vue'
 import AttackCreation from '../components/AttackCreation.vue'
 import SelectCharacter from '../components/SelectCharacter.vue'
+import LevelUp from '../components/LevelUp.vue'
 
 export default {
   name: 'Home',
@@ -41,7 +46,8 @@ export default {
     EnemyCreation,
     SpellCreation,
     AttackCreation,
-    SelectCharacter
+    SelectCharacter,
+    LevelUp
   }
 }
 </script>

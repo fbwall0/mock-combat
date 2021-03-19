@@ -41,7 +41,7 @@ export default new Vuex.Store({
           challenge: 0,
           profBonus: 0,
           maxActionPoints: 0,
-          healthRegen: 0,
+          hpRegen: 0,
           description: '',
           attacks: [],
           spells: []
