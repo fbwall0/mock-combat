@@ -8,7 +8,7 @@
               Spent Experience {{ character.spentXp }}
               <br />
               <button v-on:click="selectCharacter(character.playerId)">Character Details</button>
-              <button v-on:click="playAsCharacter">Play as Character</button>
+              
 
           </div>
           <div class="character-info" v-if="selected">
@@ -24,6 +24,7 @@
               <p>Magical Ability: {{ characterSelected.magic }}</p>
               <p>Primary Specialization: {{ specialty1 }}</p>
               <p>Secondary Specialization: {{ specialty2 }}</p>
+              <button v-on:click="playAsCharacter()">Play as Character</button>
           </div>
       </div>
   </div>
@@ -40,7 +41,6 @@ export default {
             specialty2: '',
             characters: [],
             characterSelected: {
-                playerId: 0,
             },
 
         }
@@ -67,6 +67,7 @@ export default {
             this.selected = false;
             combatService.getPlayer(id).then((response) => {
                 this.characterSelected = response.data;
+                this.characterSelected.playerId = id;
                 this.specialty1 = this.specialty(this.characterSelected.boost1);
                 this.specialty2 = this.specialty(this.characterSelected.boost2);
                 this.selected = true;
@@ -94,7 +95,9 @@ export default {
 
         },
         playAsCharacter() {
+            console.log(this.characterSelected)
             this.$store.commit('SET_CURRENT_PLAYER', this.characterSelected);
+            console.log(this.$store.state.player);
         }
     }
 }
