@@ -3,16 +3,18 @@
       <div id="character-stat" v-if="characterLoaded">
         <div id="current-character">
             <p>Current Character Stats</p>
-            <p>Name: {{ $store.state.player.name }}</p>
-            <p>Max HP: {{ $store.state.player.hpMax + ($store.state.player.constitution - 10) * 5 + ($store.state.player.profBonus * 5) }}</p>
-            <p>Max Mana: {{ $store.state.player.manaMax + ($store.state.player.magic - 10) * 5 + ($store.state.player.profBonus * 5) }}</p>
-            <p>Armor: {{ $store.state.player.baseAC + ($store.state.player.dexterity - 10) / 2 + ($store.state.player.profBonus) }}</p>
-            <p>Proficiency Bonus: {{ $store.state.player.profBonus }}</p>
-            <p>Action Points: {{ 1.5 + Number(Math.round(($store.state.player.profBonus - 1) / 2)) / 2 }}</p>
-            <p>Strength: {{ $store.state.player.strength }}</p>
-            <p>Dexterity: {{ $store.state.player.dexterity }}</p>
-            <p>Constitution: {{ $store.state.player.constitution }}</p>
-            <p>Magical Ability: {{ $store.state.player.magic }}</p>
+            <p>Name: {{ this.$store.state.player.name }}</p>
+            <p>Max HP: {{ this.$store.state.player.hpMax + (this.$store.state.player.constitution - 10) * 5 + (this.$store.state.player.profBonus * 5) }}</p>
+            <p>Max Mana: {{ this.$store.state.player.manaMax + (this.$store.state.player.magic - 10) * 5 + (this.$store.state.player.profBonus * 5) }}</p>
+            <p>Armor: {{ this.$store.state.player.baseAC + (this.$store.state.player.dexterity - 10) / 2 + (this.$store.state.player.profBonus) }}</p>
+            <p>Proficiency Bonus: {{ this.$store.state.player.profBonus }}</p>
+            <p>Action Points: {{ 1.5 + Number(Math.round((this.$store.state.player.profBonus - 1) / 2)) / 2 }}</p>
+            <p>Strength: {{ this.$store.state.player.strength }}</p>
+            <p>Dexterity: {{ this.$store.state.player.dexterity }}</p>
+            <p>Constitution: {{ this.$store.state.player.constitution }}</p>
+            <p>Magical Ability: {{ this.$store.state.player.magic }}</p>
+            <p>Health Regen: {{ this.$store.state.player.hpRegen }}</p>
+            <p>Mana Regen: {{ this.$store.state.player.manaRegen }}</p>
             <p>Primary Specialization: {{ specialty1 }}</p>
             <p>Secondary Specialization: {{ specialty2 }}</p>
         </div>
@@ -21,23 +23,23 @@
             <p>Available Experience: {{ futureCharacter.xp }}</p>
             <br />
             <div v-if="profIncreaseCost <= futureCharacter.xp">
-                <button v-on:click="profIncrease">Increase Proficiency</button> Cost: {{ profIncreaseCost }}
+                <button v-on:click="profIncrease(profIncreaseCost)">Increase Proficiency</button> Cost: {{ profIncreaseCost }}
             </div>
             <br />
             <div v-if="strIncreaseCost <= futureCharacter.xp">
-                <button v-on:click="strIncrease">Increase Strength</button> Cost: {{ strIncreaseCost }}
+                <button v-on:click="strIncrease(strIncreaseCost)">Increase Strength</button> Cost: {{ strIncreaseCost }}
             </div>
             <br />
             <div v-if="dexIncreaseCost <= futureCharacter.xp">
-                <button v-on:click="dexIncrease">Increase Dexterity</button> Cost: {{ dexIncreaseCost }}
+                <button v-on:click="dexIncrease(dexIncreaseCost)">Increase Dexterity</button> Cost: {{ dexIncreaseCost }}
             </div>
             <br />
             <div v-if="conIncreaseCost <= futureCharacter.xp">
-                <button v-on:click="conIncrease">Increase Constitution</button> Cost: {{ conIncreaseCost }}
+                <button v-on:click="conIncrease(conIncreaseCost)">Increase Constitution</button> Cost: {{ conIncreaseCost }}
             </div>
             <br />
             <div v-if="magIncreaseCost <= futureCharacter.xp">
-                <button v-on:click="magIncrease">Increase Magic</button> Cost: {{ magIncreaseCost }}
+                <button v-on:click="magIncrease(magIncreaseCost)">Increase Magic</button> Cost: {{ magIncreaseCost }}
             </div>
             <br />
             <div v-if="hpRegenIncreaseCost <= futureCharacter.xp">
@@ -55,13 +57,15 @@
             <p>Name: {{ futureCharacter.name }}</p>
             <p>Max HP: {{ futureCharacter.hpMax + (futureCharacter.constitution - 10) * 5 + (futureCharacter.profBonus * 5) }}</p>
             <p>Max Mana: {{ futureCharacter.manaMax + (futureCharacter.magic - 10) * 5 + (futureCharacter.profBonus * 5) }}</p>
-            <p>Armor: {{ futureCharacter.baseAC + (futureCharacter.dexterity - 10) / 2 + (futureCharacter.profBonus) }}</p>
+            <p>Armor: {{ futureCharacter.baseAC + Number(Math.round((futureCharacter.dexterity - 11) / 2)) + (futureCharacter.profBonus) }}</p>
             <p>Proficiency Bonus: {{ futureCharacter.profBonus }}</p>
             <p>Action Points: {{ 1.5 + Number(Math.round((futureCharacter.profBonus - 1) / 2)) / 2 }}</p>
             <p>Strength: {{ futureCharacter.strength }}</p>
             <p>Dexterity: {{ futureCharacter.dexterity }}</p>
             <p>Constitution: {{ futureCharacter.constitution }}</p>
             <p>Magical Ability: {{ futureCharacter.magic }}</p>
+            <p>Health Regen: {{ futureCharacter.hpRegen }}</p>
+            <p>Mana Regen: {{ futureCharacter.manaRegen }}</p>
         </div>
         
       </div>
@@ -84,6 +88,8 @@ export default {
             unknownSpells: [],
             unknownAttacks: [],
             baseLoaded: false,
+            specialty1: '',
+            specialty2: '',
             baseCharacter: {},
             futureCharacter: {
                 playerId: 0
@@ -92,55 +98,76 @@ export default {
         }
     },
     methods: {
+        specialty(id) {
+            switch(id){
+                case 1: return 'Strength';
+                case 2: return 'Dexterity';
+                case 3: return 'Constitution';
+                case 4: return 'Magical';
+                case 5: return 'Proficiency';
+                case 6: return 'Health';
+                case 7: return 'Mana';
+                default: return 'None';
+            }
+
+        },
         setBase() {
             this.baseLoaded = false;
-            this.baseCharacter = this.$store.state.player;
-            this.baseLoaded = true;
+            combatService.getPlayer(this.$store.state.player.playerId).then((response) => {
+                this.baseCharacter = response.data;
+                this.baseLoaded = true;
+            });
         },
         resetFutureCharacter() {
             this.characterLoaded = false;
             this.midLevel = true,
-            this.futureCharacter = this.baseCharacter;
-            combatService.getUnknownSpells(this.$store.state.player.playerId).then((response) => {
-                this.unknownSpells = response.data;
-                this.spellsLoaded = true;
-            });
-            combatService.getUnknownAttacks(this.$store.state.player.playerId).then((response) => {
-                this.unknownAttacks = response.data;
-                this.attacksLoaded = true;
-            });
-            //for testing
-            this.futureCharacter.xp = 10000;
-            this.characterLoaded = true;
-            this.midLevel = false;
+            combatService.getPlayer(this.$store.state.player.playerId).then((response) => {
+                this.baseCharacter = response.data;
+                this.specialty1 = this.specialty(this.baseCharacter.boost1);
+                this.specialty2 = this.specialty(this.baseCharacter.boost2);
+                this.futureCharacter = this.baseCharacter;
+                combatService.getUnknownSpells(this.$store.state.player.playerId).then((response) => {
+                    this.unknownSpells = response.data;
+                    this.spellsLoaded = true;
+                    combatService.getUnknownAttacks(this.$store.state.player.playerId).then((response) => {
+                        this.unknownAttacks = response.data;
+                        this.attacksLoaded = true;
+                        //for testing
+                        this.futureCharacter.xp = 10000;
+                        this.characterLoaded = true;
+                        this.midLevel = false;
+                    });
+                });
+            })
+
         },
-        profIncrease() {
+        profIncrease(profIncreaseCost) {
             this.midLevel = true;
-            this.spendXp(this.profIncreaseCost());
+            this.spendXp(profIncreaseCost);
             this.futureCharacter.profBonus = this.futureCharacter.profBonus + 1;
             this.midLevel = false;
         },
-        strIncrease() {
+        strIncrease(strIncreaseCost) {
             this.midLevel = true;
-            this.spendXp(this.strIncreaseCost());
+            this.spendXp(strIncreaseCost);
             this.futureCharacter.strength = this.futureCharacter.strength + 1;
             this.midLevel = false;
         },
-        dexIncrease() {
+        dexIncrease(dexIncreaseCost) {
             this.midLevel = true;
-            this.spendXp(this.dexIncreaseCost());
+            this.spendXp(dexIncreaseCost);
             this.futureCharacter.dexterity = this.futureCharacter.dexterity + 1;
             this.midLevel = false;
         },
-        conIncrease() {
+        conIncrease(conIncreaseCost) {
             this.midLevel = true;
-            this.spendXp(this.conIncreaseCost());
+            this.spendXp(conIncreaseCost);
             this.futureCharacter.constitution = this.futureCharacter.constitution + 1;
             this.midLevel = false;
         },
-        magIncrease() {
+        magIncrease(magIncreaseCost) {
             this.midLevel = true;
-            this.spendXp(this.magIncreaseCost());
+            this.spendXp(magIncreaseCost);
             this.futureCharacter.magic = this.futureCharacter.magic + 1;
             this.midLevel = false;
         },
@@ -163,25 +190,24 @@ export default {
     },
     created() {
         this.resetFutureCharacter;
-        this.baseCharacter = this.$store.state.player;
         
         
     },
     computed: {
         profIncreaseCost() {
-            return (this.futureCharacter.profBonus - (this.$store.state.player.bonus1 == 5 ? 1 : 0)) * 300;
+            return ((this.futureCharacter.profBonus - (this.baseCharacter.boost1 == 5 ? 1 : 0)) * (this.futureCharacter.profBonus - (this.baseCharacter.boost1 == 5 ? 1 : 0) - 1) + 1) * 300;
         },
         strIncreaseCost() {
-            return (this.futureCharacter.strength - 9 - (this.$store.state.player.bonus1 == 1 ? 4 : 0) - (this.$store.state.player.bonus2 == 1 ? 2 : 0)) * 200;
+            return (this.futureCharacter.strength - 9 - (this.baseCharacter.boost1 == 1 ? 4 : 0) - (this.baseCharacter.boost2 == 1 ? 2 : 0)) * 200;
         },
         dexIncreaseCost() {
-            return (this.futureCharacter.dexterity - 9 - (this.$store.state.player.bonus1 == 2 ? 4 : 0) - (this.$store.state.player.bonus2 == 2 ? 2 : 0)) * 200;
+            return (this.futureCharacter.dexterity - 9 - (this.baseCharacter.boost1 == 2 ? 4 : 0) - (this.baseCharacter.boost2 == 2 ? 2 : 0)) * 200;
         },
         conIncreaseCost() {
-            return (this.futureCharacter.constitution - 9 - (this.$store.state.player.bonus1 == 3 ? 4 : 0) - (this.$store.state.player.bonus2 == 3 ? 2 : 0)) * 200;
+            return (this.futureCharacter.constitution - 9 - (this.baseCharacter.boost1 == 3 ? 4 : 0) - (this.baseCharacter.boost2 == 3 ? 2 : 0)) * 200;
         },
         magIncreaseCost() {
-            return (this.futureCharacter.magic - 9 - (this.$store.state.player.bonus1 == 4 ? 4 : 0) - (this.$store.state.player.bonus2 == 4 ? 2 : 0)) * 200;
+            return (this.futureCharacter.magic - 9 - (this.baseCharacter.boost1 == 4 ? 4 : 0) - (this.baseCharacter.boost2 == 4 ? 2 : 0)) * 200;
         },
         hpRegenIncreaseCost() {
             return ((this.futureCharacter.hpRegen) * (this.futureCharacter.hpRegen) + 1) * 250;
