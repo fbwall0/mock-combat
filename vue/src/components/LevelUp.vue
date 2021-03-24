@@ -69,6 +69,39 @@
         </div>
         
       </div>
+
+      <div id="spell-learning">
+          <p>Spells to Learn</p>
+          <table>
+              <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Experience Cost</th>
+                    <th>Mana Cost</th>
+                    <th>Damage 1</th>
+                    <th>Damage 2</th>
+                    <th>Type</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <tr v-for="spell in unknownSpells" v-bind:key="spell.spellId">
+                    <td>
+                        <input type="checkbox" v-bind:id="spell.spellId" v-bind:value="spell" v-model="selectedSpells" />
+                    </td>
+                    <td>{{ spell.name }}</td>
+                    <td>{{ spell.xpCost }}</td>
+                    <td>{{ spell.manaCost }}</td>
+                    <td>{{spell.damageDie1}}d{{spell.dieSize1}} + {{spell.bonusDamage1}} {{damageType(spell.damageType1)}}</td>
+                    <td v-if="spell.hasSecondDamage">{{spell.damageDie2}}d{{spell.dieSize2}} + {{spell.bonusDamage2}} {{damageType(spell.damageType2)}}</td>
+                    <td v-if="!spell.hasSecondDamage"></td>
+                    <td>{{ spellType(spell.spellType) }}</td>
+                </tr>
+              </tbody>
+          </table>
+      </div>
+      <div id="attack-learning">
+
+      </div>
       <button v-on:click="resetFutureCharacter">Reset Level Up</button>
       <button v-if="!baseLoaded" v-on:click="setBase">Set Base</button>
 
@@ -94,6 +127,9 @@ export default {
             futureCharacter: {
                 playerId: 0
             },
+            selectedSpells: [],
+            selectedAttacks: [],
+
 
         }
     },
@@ -186,6 +222,35 @@ export default {
         spendXp(experience) {
             this.futureCharacter.xp = this.futureCharacter.xp - experience;
             this.futureCharacter.spentXp = this.futureCharacter.spentXp + experience;
+        },
+        spellType(id) {
+            if (id == 3) {
+                return 'Utility';
+            }
+            else if (id == 2) {
+                return 'Healing';
+            }
+            else {
+                return 'Damage';
+            }
+        },
+        damageType(id) {
+            switch(id) {
+                case 1: return 'Bludgeoning';
+                case 2: return 'Piercing';
+                case 3: return 'Slashing';
+                case 4: return 'Radiant';
+                case 5: return 'Necrotic';
+                case 6: return 'Fire';
+                case 7: return 'Cold';
+                case 8: return 'Lightning';
+                case 9: return 'Thunder';
+                case 10: return 'Force';
+                case 11: return 'Psychic';
+                case 12: return 'Poison';
+                case 13: return 'Acid';
+                default: return 'Divine';
+            }
         }
     },
     created() {
@@ -215,6 +280,20 @@ export default {
         manaRegenIncreaseCost() {
             return (Number(this.futureCharacter.manaRegen) * Number(this.futureCharacter.manaRegen) + 1) * 250;
         },
+        spellLearnCost() {
+            let xpCost = 0;
+            this.selectedSpells.forEach(spell => {
+                xpCost = xpCost + spell.xpCost;
+            });
+            return xpCost;
+        },
+        attackLearnCost() {
+            let xpCost = 0;
+            this.selectedAttacks.forEach(attack => {
+                xpCost = xpCost + attack.xpCost;
+            });
+            return xpCost;
+        }
     }
 }
 </script>
