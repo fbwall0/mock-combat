@@ -56,12 +56,12 @@
                   <option value=12>Poison</option>
                   <option value=13>Acid</option>
                   </select>
-              <br />
-              <input type="checkbox" v-model="attack.isMagic">Has Magical Bonus
-              <br />
-              <div v-if="attack.isMagic">
-                  Magical Bonus: <input id="attack-magic-bonus" v-model="attack.magicBonus" type="number" />
               </div>
+              <br />
+              <input type="checkbox" v-model="attack.magic">Has Magical Bonus
+              <br />
+              <div v-if="attack.magic">
+                  Magical Bonus: <input id="attack-magic-bonus" v-model="attack.magicBonus" type="number" />
               </div>
               Estimated Experience Cost: {{ experienceCostCalc }}
               <br />
@@ -90,7 +90,7 @@ export default {
                 damageDie2: 1,
                 dieSize2: 4,
                 bonusDamage2: 0,
-                isMagic: false,
+                magic: false,
                 magicBonus: 0,
                 xpCost: Number,
             }
@@ -116,7 +116,7 @@ export default {
                 damageDie2: 1,
                 dieSize2: 4,
                 bonusDamage2: 0,
-                isMagic: false,
+                magic: false,
                 magicBonus: 0,
                 xpCost: Number,
             }
@@ -127,11 +127,11 @@ export default {
             if (this.attack.hasSecondDamage) {
                 let damage1 = Number(this.attack.damageDie1 * this.attack.dieSize1 + Number(this.attack.bonusDamage1) * Math.abs(this.attack.bonusDamage1) / 2);
                 let damage2 = Number(this.attack.damageDie2 * this.attack.dieSize2 + Number(this.attack.bonusDamage2) * Math.abs(this.attack.bonusDamage2) / 2);
-                let magicBonus = Number(this.attack.isMagic ? this.attack.magicBonus : 0) * this.attack.magicBonus * this.attack.magicBonus;
+                let magicBonus = Number(this.attack.magic ? this.attack.magicBonus : 0) * this.attack.magicBonus * this.attack.magicBonus;
                 let totalDamage = Number(Number(damage1) + Number(damage2) + Number(magicBonus));
                 return Math.round(Number(totalDamage * 50) / Number(this.attack.actionCost));
             } else {
-                return (this.attack.damageDie1 * this.attack.dieSize1 + Number(this.attack.bonusDamage1) * Math.abs(this.attack.bonusDamage1) / 2 + (Number(this.attack.isMagic ? this.attack.magicBonus : 0) * this.attack.magicBonus * this.attack.magicBonus)) * 50 / (this.attack.actionCost);
+                return (this.attack.damageDie1 * this.attack.dieSize1 + Number(this.attack.bonusDamage1) * Math.abs(this.attack.bonusDamage1) / 2 + (Number(this.attack.magic ? this.attack.magicBonus : 0) * this.attack.magicBonus * this.attack.magicBonus)) * 50 / (this.attack.actionCost);
             }
         }
     }

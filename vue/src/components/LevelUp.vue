@@ -75,32 +75,78 @@
           <table>
               <thead>
                   <tr>
+                    <th></th>
                     <th>Name</th>
+                    <th>|</th>
                     <th>Experience Cost</th>
+                    <th>|</th>
                     <th>Mana Cost</th>
+                    <th>|</th>
                     <th>Damage 1</th>
+                    <th>|</th>
                     <th>Damage 2</th>
+                    <th>|</th>
                     <th>Type</th>
                   </tr>
               </thead>
               <tbody>
                 <tr v-for="spell in unknownSpells" v-bind:key="spell.spellId">
+                    
                     <td>
                         <input type="checkbox" v-bind:id="spell.spellId" v-bind:value="spell" v-model="selectedSpells" />
                     </td>
                     <td>{{ spell.name }}</td>
+                    <td>|</td>
                     <td>{{ spell.xpCost }}</td>
+                    <td>|</td>
                     <td>{{ spell.manaCost }}</td>
-                    <td>{{spell.damageDie1}}d{{spell.dieSize1}} + {{spell.bonusDamage1}} {{damageType(spell.damageType1)}}</td>
-                    <td v-if="spell.hasSecondDamage">{{spell.damageDie2}}d{{spell.dieSize2}} + {{spell.bonusDamage2}} {{damageType(spell.damageType2)}}</td>
+                    <td>|</td>
+                    <td>{{spell.damageDie1}}d{{spell.dieSize1}} {{spell.bonusDamage1 != 0 ? (spell.bonusDamage1 > 0 ? '+ ' : '- ') + Math.abs(spell.bonusDamage1) : ''}} {{damageType(spell.damageType1)}}</td>
+                    <td>|</td>
+                    <td v-if="spell.hasSecondDamage">{{spell.damageDie2}}d{{spell.dieSize2}} {{spell.bonusDamage2 != 0 ? (spell.bonusDamage2 > 0 ? '+ ' : '- ') + Math.abs(spell.bonusDamage2) : ''}} {{damageType(spell.damageType2)}}</td>
                     <td v-if="!spell.hasSecondDamage"></td>
+                    <td>|</td>
                     <td>{{ spellType(spell.spellType) }}</td>
                 </tr>
               </tbody>
           </table>
       </div>
       <div id="attack-learning">
-
+          <p>Attacks to Learn</p>
+          <table>
+              <thead>
+                  <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>|</th>
+                    <th>Experience Cost</th>
+                    <th>|</th>
+                    <th>Damage 1</th>
+                    <th>|</th>
+                    <th>Damage 2</th>
+                    <th>|</th>
+                    <th>Magic Bonus</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <tr v-for="attack in unknownAttacks" v-bind:key="attack.attackId">
+                    <td>
+                        <input type="checkbox" v-bind:id="attack.attackId" v-bind:value="attack" v-model="selectedAttacks" />
+                    </td>
+                    <td>{{ attack.name }}</td>
+                    <td>|</td>
+                    <td>{{ attack.xpCost }}</td>
+                    <td>|</td>
+                    <td>{{attack.damageDie1}}d{{attack.dieSize1}} {{attack.bonusDamage1 != 0 ? (attack.bonusDamage1 > 0 ? '+ ' : '- ') + Math.abs(attack.bonusDamage1) : ''}} {{damageType(attack.damageType1)}}</td>
+                    <td>|</td>
+                    <td v-if="attack.hasSecondDamage">{{attack.damageDie2}}d{{attack.dieSize2}} {{attack.bonusDamage2 != 0 ? (attack.bonusDamage2 > 0 ? '+ ' : '- ') + Math.abs(attack.bonusDamage2) : ''}} {{damageType(attack.damageType2)}}</td>
+                    <td v-if="!attack.hasSecondDamage"></td>
+                    <td>|</td>
+                    <td v-if="attack.magic">{{ attack.magicBonus }}</td>
+                    <td v-if="!attack.magic"></td>
+                </tr>
+              </tbody>
+          </table>
       </div>
       <button v-on:click="resetFutureCharacter">Reset Level Up</button>
       <button v-if="!baseLoaded" v-on:click="setBase">Set Base</button>

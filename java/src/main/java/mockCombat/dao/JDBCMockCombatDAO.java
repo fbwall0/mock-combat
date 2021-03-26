@@ -369,7 +369,7 @@ public class JDBCMockCombatDAO implements MockCombatDAO {
 		int dieSize2 = results.getInt("die_size_2");
 		int bonusDamage2 = results.getInt("bonus_damage_2");
 		if (damageDie2 * dieSize2 > 0 || bonusDamage2 > 0) {
-			Integer damageType2Id = results.getInt("damage_type_2");
+			Integer damageType2Id = results.getInt("damage_type_id_2");
 			output = new Spell(name, spellId, actionCost, xpCost, damageType1Id, damageDie1, dieSize1, bonusDamage1, damageType2Id, damageDie2, dieSize2, bonusDamage2, spellType, manaCost, targetSelf);
 		} else {
 			output = new Spell(name, spellId, actionCost, xpCost, damageType1Id, damageDie1, dieSize1, bonusDamage1, spellType, manaCost, targetSelf);
@@ -416,7 +416,7 @@ public class JDBCMockCombatDAO implements MockCombatDAO {
 		int dieSize2 = results.getInt("die_size_2");
 		int bonusDamage2 = results.getInt("bonus_damage_2");
 		if (damageDie2 * dieSize2 > 0 || bonusDamage2 > 0) {
-			Integer damageType2Id = results.getInt("damage_type_2");
+			Integer damageType2Id = results.getInt("damage_type_id_2");
 			output = new Attack(name, attackId, actionCost, xpCost, damageType1Id, damageDie1, dieSize1, bonusDamage1, damageType2Id, damageDie2, dieSize2, bonusDamage2, magic, magicBonus);
 		} else {
 			output = new Attack(name, attackId, actionCost, xpCost, damageType1Id, damageDie1, dieSize1, bonusDamage1, magic, magicBonus);
